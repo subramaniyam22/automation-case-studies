@@ -1,68 +1,168 @@
 # Automation Case Studies
 
-**Kandaswamy Subramaniyam** — Delivery automation, workflow orchestration, and AI-assisted operations platforms.
+**Kandaswamy Subramaniyam** — Senior IT Leader · TPM · AI Operations · Delivery Automation
 
-This repository showcases end-to-end automation case studies with interactive architecture diagrams, process flows, and downloadable PDF summaries. It is intended for recruiters and hiring managers who want a quick, structured view of how these systems were designed and built.
+A JSON-driven portfolio platform showcasing enterprise automation case studies with interactive diagrams, process flows, and downloadable PDF summaries. Built for recruiters, hiring managers, and technical reviewers.
 
-**Live site (GitHub Pages):** [subramaniyam22.github.io/automation-case-studies](https://subramaniyam22.github.io/automation-case-studies/)
-
----
-
-## Case Studies
-
-### AutonOps — Delivery Operations Platform
-
-End-to-end platform for work intake, AI-assisted assignment recommendations, rule governance, OKR goals, checklist workflows, and performance analytics. Built for delivery teams that need one unified space to align work, compliance, and reporting.
-
-| Resource | Description |
-|----------|-------------|
-| [Interactive diagrams](case-studies/AutonOps_Workflow.html) | Architecture, process flow, execution lifecycle, and role coordination (tabbed view) |
-| [PDF case study](pdf/AutonOps_CaseStudy.pdf) | Full written case study for offline review |
-
-**Stack:** React 19 · Vite · Node.js · Express 5 · PostgreSQL 15+ · OpenAI GPT-4o-mini · JWT RBAC (5 roles)
+**Live site:** [subramaniyam22.github.io/automation-case-studies](https://subramaniyam22.github.io/automation-case-studies/)
 
 ---
 
-### DAISY — Delivery Automation Intelligence System Yield
+## Portfolio Overview
 
-MVP platform for intelligent delivery automation — coordinating jobs through a multi-stage pipeline with role-based access, agent orchestration, and cloud-native infrastructure.
+This repository is a **static, data-driven case study platform**. The homepage (`index.html`) dynamically renders all projects from a single JSON file — no manual HTML editing required when adding new case studies.
 
-| Resource | Description |
-|----------|-------------|
-| [Architecture diagram](case-studies/DAISY_01_Architecture_Diagram.html) | System layers, services, and integrations |
-| [Process flow](case-studies/DAISY_02_Process_Flow.html) | 7-stage delivery pipeline |
-| [Execution lifecycle](case-studies/DAISY_03_Execution_Lifecycle.html) | Job state transitions from intake to completion |
-| [Coordination flow](case-studies/DAISY_04_Coordination_Flow.html) | Role-based responsibilities and handoffs |
-| [PDF case study](pdf/DAISY_CaseStudy.pdf) | Full written case study for offline review |
-
-**Stack:** FastAPI · LangGraph · Next.js 16 · PostgreSQL · S3 · CloudFront
+| Project | Category | Diagrams | PDF |
+|---------|----------|----------|-----|
+| **AutonOps** | AI-Assisted Delivery Operations Platform | [Workflow](case-studies/autonops/workflow.html) | [PDF](pdf/autonops-case-study.pdf) |
+| **DAISY** | Delivery Automation Intelligence System Yield | [Architecture](case-studies/daisy/architecture.html) · [Process Flow](case-studies/daisy/process-flow.html) · [Execution Lifecycle](case-studies/daisy/execution-lifecycle.html) · [Coordination Flow](case-studies/daisy/coordination-flow.html) | [PDF](pdf/daisy-case-study.pdf) |
 
 ---
 
-## Repository Layout
+## Repository Architecture
 
 ```
 automation-case-studies/
-├── case-studies/     # Interactive HTML diagrams (open in browser)
-├── pdf/              # PDF case study documents
-├── assets/           # Supporting images and diagram assets
+│
+├── index.html                    # Portfolio homepage (GitHub Pages entry point)
+│
+├── assets/
+│   ├── case-studies.json         # Single source of truth — add projects here
+│   ├── app.js                    # Dynamic card rendering from JSON
+│   ├── styles.css                # Shared styles (homepage + diagram chrome)
+│   ├── diagram-chrome.js         # Shared nav/footer for diagram pages
+│   └── images/                   # Optional project images
+│
+├── case-studies/
+│   ├── autonops/
+│   │   └── workflow.html
+│   └── daisy/
+│       ├── architecture.html
+│       ├── process-flow.html
+│       ├── execution-lifecycle.html
+│       └── coordination-flow.html
+│
+├── pdf/
+│   ├── autonops-case-study.pdf
+│   └── daisy-case-study.pdf
+│
 └── README.md
 ```
 
 ---
 
-## How to View
+## How JSON-Driven Rendering Works
 
-1. **GitHub Pages** — Enable Pages on the `main` branch (root `/`) in repository Settings → Pages. The live URL will be `https://subramaniyam22.github.io/automation-case-studies/`.
-2. **Interactive diagrams** — Open any file under `case-studies/` directly in your browser.
-3. **PDF summaries** — Download from the `pdf/` folder for sharing or printing.
+1. **`assets/case-studies.json`** defines all portfolio projects (title, summary, metrics, tags, tech stack, PDF path, diagram page links).
+2. **`assets/app.js`** reads the JSON and auto-generates:
+   - Case study cards on the homepage
+   - Tag and tech badges per project
+   - Metrics lists
+   - Links to interactive diagrams and PDFs
+   - Aggregated technical stack section
+3. **Adding a new project** updates the homepage automatically — no changes to `index.html` required.
+
+The homepage loads JSON via a `<script type="application/json">` tag for compatibility with both **GitHub Pages** and **local file opening**.
+
+---
+
+## How to Add a Future Case Study
+
+### Step 1 — Create diagram folder
+
+```
+case-studies/your-project/
+├── architecture.html
+└── process-flow.html
+```
+
+Add shared navigation to each HTML file:
+
+```html
+<link rel="stylesheet" href="../../assets/styles.css">
+<!-- keep existing embedded diagram CSS -->
+<script src="../../assets/case-studies.json" type="application/json" id="case-studies-data"></script>
+<script src="../../assets/diagram-chrome.js" data-project="your-project"></script>
+```
+
+Use the same `id` value in JSON (`"id": "your-project"`) as the `data-project` attribute.
+
+### Step 2 — Add PDF
+
+Place the case study PDF in `pdf/`:
+
+```
+pdf/your-project-case-study.pdf
+```
+
+### Step 3 — Add one JSON entry
+
+Add a new object to `assets/case-studies.json`:
+
+```json
+{
+  "id": "your-project",
+  "title": "Your Project",
+  "category": "Short category label",
+  "summary": "One-paragraph project description.",
+  "metrics": ["Metric 1", "Metric 2"],
+  "tags": ["Tag 1", "Tag 2"],
+  "tech": ["Tech 1", "Tech 2"],
+  "pdf": "pdf/your-project-case-study.pdf",
+  "pages": [
+    { "title": "Architecture", "link": "case-studies/your-project/architecture.html" }
+  ]
+}
+```
+
+**Done.** The homepage updates automatically on the next deploy.
+
+---
+
+## GitHub Pages Setup
+
+1. Open **Settings → Pages** in the repository.
+2. Set **Source** to **Deploy from a branch**.
+3. Choose **Branch:** `main`, **Folder:** `/ (root)`.
+4. Save. The site will be live at `https://subramaniyam22.github.io/automation-case-studies/` within a few minutes.
+
+The homepage is served from `index.html` at the repository root.
+
+---
+
+## Local Preview
+
+Open `index.html` directly in a browser, or run a local server:
+
+```bash
+python -m http.server 8080
+```
+
+Then visit `http://localhost:8080`.
+
+---
+
+## Tech Stack (Platform)
+
+| Layer | Technology |
+|-------|------------|
+| Markup | HTML5 |
+| Styling | CSS3 (no frameworks) |
+| Logic | Vanilla JavaScript |
+| Data | JSON |
+| Hosting | GitHub Pages |
+
+No build tools, npm, or frameworks — fully static and maintainable.
 
 ---
 
 ## Contact
 
-**Kandaswamy Subramaniyam**  
-[kandaswamysubramaniyam@gmail.com](mailto:kandaswamysubramaniyam@gmail.com)
+**Kandaswamy Subramaniyam**
+
+- **Email:** [kandaswamysubramaniyam@gmail.com](mailto:kandaswamysubramaniyam@gmail.com)
+- **GitHub:** [subramaniyam22/automation-case-studies](https://github.com/subramaniyam22/automation-case-studies)
+- **LinkedIn:** [linkedin.com/in/kandaswamy-subramaniyam](https://www.linkedin.com/in/kandaswamy-subramaniyam)
 
 ---
 

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "autonops",
+    "title": "AutonOps",
+    "category": "AI-Assisted Delivery Operations Platform",
+    "summary": "AI-assisted enterprise delivery operations platform providing centralized execution visibility, assignment intelligence, SLA governance, and operational coordination.",
+    "metrics": [
+      "75% reduction in manual coordination",
+      "$29,230 annual cost savings",
+      "~1,500 defects prevented monthly",
+      "168 operational hours saved monthly"
+    ],
+    "tags": [
+      "AI Operations",
+      "Workflow Automation",
+      "Program Governance",
+      "SLA Tracking",
+      "Delivery Intelligence"
+    ],
+    "tech": [
+      "React",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "OpenAI",
+      "JWT RBAC"
+    ],
+    "pdf": "pdf/autonops-case-study.pdf",
+    "pages": [
+      {
+        "title": "Workflow",
+        "link": "case-studies/autonops/workflow.html"
+      }
+    ]
+  },
+  {
+    "id": "daisy",
+    "title": "DAISY",
+    "category": "Delivery Automation Intelligence System Yield",
+    "summary": "Multi-stage enterprise delivery orchestration platform with AI-assisted workflow automation, SLA visibility, governance, and release coordination.",
+    "metrics": [
+      "55+ users across India and US",
+      "75% reduction in repetitive activities",
+      "43% execution quality improvement",
+      "40 FTE to 3 FTE operational scale-down"
+    ],
+    "tags": [
+      "Delivery Automation",
+      "Workflow Orchestration",
+      "Execution Governance",
+      "SLA Visibility",
+      "Release Coordination"
+    ],
+    "tech": [
+      "FastAPI",
+      "LangGraph",
+      "Next.js",
+      "PostgreSQL",
+      "S3",
+      "CloudFront"
+    ],
+    "pdf": "pdf/daisy-case-study.pdf",
+    "pages": [
+      {
+        "title": "Architecture",
+        "link": "case-studies/daisy/architecture.html"
+      },
+      {
+        "title": "Process Flow",
+        "link": "case-studies/daisy/process-flow.html"
+      },
+      {
+        "title": "Execution Lifecycle",
+        "link": "case-studies/daisy/execution-lifecycle.html"
+      },
+      {
+        "title": "Coordination Flow",
+        "link": "case-studies/daisy/coordination-flow.html"
+      }
+    ]
+  }
+]

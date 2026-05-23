@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Automation case studies portfolio by Kandaswamy Subramaniyam — AI operations, delivery automation, and workflow orchestration.">
+  <title>Kandaswamy Subramaniyam | Automation Case Studies</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="container">
+      <a class="nav-brand" href="#top">Kandaswamy <span>Subramaniyam</span></a>
+      <div class="nav-links">
+        <a href="#focus">Focus</a>
+        <a href="#case-studies">Case Studies</a>
+        <a href="#impact">Impact</a>
+        <a href="#stack">Stack</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container">
+      <span class="hero-badge">Automation Portfolio</span>
+      <h1>Kandaswamy Subramaniyam</h1>
+      <p class="subtitle">Senior IT Leader | TPM | AI Operations | Delivery Automation</p>
+      <p class="intro">
+        Portfolio of enterprise automation case studies spanning AI-assisted delivery operations,
+        workflow orchestration, SLA governance, and operational intelligence. Each project includes
+        interactive architecture diagrams, process flows, and downloadable PDF summaries for
+        executive and technical review.
+      </p>
+    </div>
+  </header>
+
+  <section id="focus">
+    <div class="container">
+      <div class="section-header">
+        <h2>Focus Areas</h2>
+        <p>Core domains where I design and deliver automation at scale across enterprise delivery organizations.</p>
+      </div>
+      <div class="focus-grid">
+        <div class="focus-item">AI Operations</div>
+        <div class="focus-item">Workflow Automation</div>
+        <div class="focus-item">Delivery Intelligence</div>
+        <div class="focus-item">Program Governance</div>
+        <div class="focus-item">SLA Automation</div>
+        <div class="focus-item">Operational Intelligence</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="case-studies" class="section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Case Studies</h2>
+        <p>Dynamically loaded from <code>assets/case-studies.json</code> — add a new project by updating one file.</p>
+      </div>
+      <div id="case-study-grid" class="case-study-grid">
+        <p class="loading-message">Loading case studies…</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="impact">
+    <div class="container">
+      <div class="section-header">
+        <h2>Business Impact</h2>
+        <p>Outcomes delivered through automation, governance, and intelligent workflow design.</p>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-item">
+          <h4>Reduced Operational Overhead</h4>
+          <p>Automated coordination and assignment intelligence eliminate repetitive manual handoffs across delivery teams.</p>
+        </div>
+        <div class="impact-item">
+          <h4>Improved Governance Visibility</h4>
+          <p>Centralized SLA tracking, rule governance, and execution dashboards provide real-time program oversight.</p>
+        </div>
+        <div class="impact-item">
+          <h4>Faster Delivery Coordination</h4>
+          <p>Multi-stage pipeline orchestration accelerates intake-to-release cycles with clear role accountability.</p>
+        </div>
+        <div class="impact-item">
+          <h4>Automated Execution Tracking</h4>
+          <p>End-to-end lifecycle visibility from work intake through quality validation and performance analytics.</p>
+        </div>
+        <div class="impact-item">
+          <h4>Reduced Manual Intervention</h4>
+          <p>AI-assisted recommendations and autonomous workflow stages minimize human-in-the-loop dependencies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack" class="section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Technical Stack</h2>
+        <p>Technologies represented across portfolio projects — aggregated automatically from case study data.</p>
+      </div>
+      <div id="stack-badges" class="stack-cloud">
+        <span class="loading-message">Loading stack…</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-header">
+        <h2>Contact</h2>
+        <p>Reach out for portfolio discussions, leadership opportunities, or automation consulting conversations.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h4>GitHub</h4>
+          <a id="contact-github" href="https://github.com/subramaniyam22/automation-case-studies" target="_blank" rel="noopener">subramaniyam22/automation-case-studies</a>
+        </div>
+        <div class="contact-card">
+          <h4>LinkedIn</h4>
+          <a id="contact-linkedin" href="https://www.linkedin.com/in/kandaswamy-subramaniyam" target="_blank" rel="noopener">linkedin.com/in/kandaswamy-subramaniyam</a>
+        </div>
+        <div class="contact-card">
+          <h4>Email</h4>
+          <a href="mailto:kandaswamysubramaniyam@gmail.com">kandaswamysubramaniyam@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Built by <strong>Kandaswamy Subramaniyam</strong> · Automation Case Studies Portfolio · <a href="https://subramaniyam22.github.io/automation-case-studies/">GitHub Pages</a></p>
+    </div>
+  </footer>
+
+  <!-- JSON loader: works with file:// and GitHub Pages -->
+  <script src="assets/case-studies.json" type="application/json" id="case-studies-data"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
