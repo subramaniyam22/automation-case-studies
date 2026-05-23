@@ -4,6 +4,26 @@
   var GITHUB_REPO = 'https://github.com/subramaniyam22/automation-case-studies';
   var HOME_HREF = '../../index.html';
 
+  var FALLBACK_PROJECTS = {
+    autonops: {
+      id: 'autonops',
+      title: 'AutonOps',
+      pdf: 'pdf/autonops-case-study.pdf',
+      pages: [{ title: 'Workflow', link: 'case-studies/autonops/workflow.html' }]
+    },
+    daisy: {
+      id: 'daisy',
+      title: 'DAISY',
+      pdf: 'pdf/daisy-case-study.pdf',
+      pages: [
+        { title: 'Architecture', link: 'case-studies/daisy/architecture.html' },
+        { title: 'Process Flow', link: 'case-studies/daisy/process-flow.html' },
+        { title: 'Execution Lifecycle', link: 'case-studies/daisy/execution-lifecycle.html' },
+        { title: 'Coordination Flow', link: 'case-studies/daisy/coordination-flow.html' }
+      ]
+    }
+  };
+
   function loadCaseStudies() {
     return new Promise(function (resolve, reject) {
       var dataEl = document.getElementById('case-studies-data');
@@ -62,35 +82,43 @@
     return '../../' + pdfPath.replace(/^\//, '');
   }
 
+  function getProject(projectId, studies) {
+    if (studies) {
+      var fromJson = studies.find(function (s) { return s.id === projectId; });
+      if (fromJson) return fromJson;
+    }
+    return FALLBACK_PROJECTS[projectId] || null;
+  }
+
   function buildNav(project) {
     var currentFile = getCurrentFile();
     var pageLinks = project.pages.map(function (page) {
       var href = toRelativePage(page.link);
-      var active = href === currentFile ? ' class="active"' : '';
+      var active = href === currentFile ? ' active' : '';
       return '<a href="' + href + '"' + active + '>' + page.title + '</a>';
     }).join('');
 
     var nav = document.createElement('nav');
-    nav.className = 'diagram-chrome';
+    nav.className = 'site-nav';
     nav.innerHTML =
-      '<div class="diagram-chrome-inner">' +
-        '<div class="chrome-brand"><span>' + project.title + '</span> · Diagrams</div>' +
-        '<div class="chrome-links">' +
+      '<div class="container">' +
+        '<a class="nav-brand" href="' + HOME_HREF + '">' + project.title + ' <span>Diagrams</span></a>' +
+        '<div class="nav-links">' +
           '<a href="' + HOME_HREF + '">Portfolio Home</a>' +
           pageLinks +
-          '<a class="pdf-link" href="' + toRelativePdf(project.pdf) + '" target="_blank" rel="noopener">PDF Case Study</a>' +
+          '<a class="nav-pdf" href="' + toRelativePdf(project.pdf) + '" target="_blank" rel="noopener">PDF Case Study</a>' +
           '<a href="' + GITHUB_REPO + '" target="_blank" rel="noopener">GitHub</a>' +
         '</div>' +
       '</div>';
 
     document.body.insertBefore(nav, document.body.firstChild);
-    document.body.classList.add('has-diagram-chrome');
+    document.body.classList.add('diagram-page');
   }
 
   function buildFooter(project) {
     var pdfHref = toRelativePdf(project.pdf);
     var footerHtml =
-      'Built by <strong style="color:#e8eaf6">Kandaswamy Subramaniyam</strong> · ' +
+      'Built by <strong>Kandaswamy Subramaniyam</strong> · ' +
       '<a href="mailto:kandaswamysubramaniyam@gmail.com">kandaswamysubramaniyam@gmail.com</a> · ' +
       project.title + ' · ' +
       '<a href="' + HOME_HREF + '">Portfolio Home</a> · ' +
@@ -98,14 +126,14 @@
 
     var existingFooter = document.querySelector('footer');
     if (existingFooter) {
-      existingFooter.className = 'diagram-site-footer';
-      existingFooter.innerHTML = footerHtml;
+      existingFooter.className = 'site-footer diagram-site-footer';
+      existingFooter.innerHTML = '<div class="container"><p>' + footerHtml + '</p></div>';
       return;
     }
 
     var footer = document.createElement('footer');
-    footer.className = 'diagram-site-footer';
-    footer.innerHTML = footerHtml;
+    footer.className = 'site-footer diagram-site-footer';
+    footer.innerHTML = '<div class="container"><p>' + footerHtml + '</p></div>';
     document.body.appendChild(footer);
   }
 
@@ -116,13 +144,16 @@
 
     loadCaseStudies()
       .then(function (studies) {
-        var project = studies.find(function (s) { return s.id === projectId; });
+        var project = getProject(projectId, studies);
         if (!project) return;
         buildNav(project);
         buildFooter(project);
       })
       .catch(function () {
-        /* Nav is optional enhancement; diagrams remain fully usable without it */
+        var project = getProject(projectId, null);
+        if (!project) return;
+        buildNav(project);
+        buildFooter(project);
       });
   }
 

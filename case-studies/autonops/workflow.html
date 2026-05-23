@@ -5,146 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AutonOps – Project Diagrams | Kandaswamy Subramaniyam</title>
 <link rel="stylesheet" href="../../assets/styles.css">
+<link rel="stylesheet" href="../../assets/diagram-page.css">
 <style>
   :root {
-    --bg: #0f1117;
-    --surface: #181c27;
-    --card: #1e2436;
-    --border: #2a3050;
     --accent: #4f8ef7;
     --accent2: #7c5cbf;
     --accent3: #2ec4a3;
     --accent4: #f76f4f;
     --accent5: #f7c948;
-    --text: #e8eaf6;
-    --muted: #8892b0;
-    --white: #ffffff;
-    --tab-active: #4f8ef7;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: linear-gradient(135deg, #0f1117 0%, #181c27 50%, #1a1e2e 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 32px 48px 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(79,142,247,0.08) 0%, transparent 70%);
-  }
-  .header-inner { position: relative; z-index: 1; max-width: 1100px; }
-  .badge {
-    display: inline-block;
-    background: rgba(79,142,247,0.15);
-    color: var(--accent);
-    border: 1px solid rgba(79,142,247,0.35);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  header h1 {
-    font-size: 30px;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.2;
-    margin-bottom: 8px;
-  }
-  header h1 span { color: var(--accent); }
-  header p {
-    color: var(--muted);
-    font-size: 15px;
-    max-width: 680px;
-    line-height: 1.6;
-  }
-  .meta-row {
-    display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap;
-  }
-  .meta-item {
-    display: flex; align-items: center; gap: 7px;
-    font-size: 13px; color: var(--muted);
-  }
-  .meta-dot { width: 8px; height: 8px; border-radius: 50%; }
-
-  /* ── TABS ── */
-  .tabs-wrapper {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 48px;
-    display: flex; gap: 4px;
-  }
-  .tab {
-    padding: 16px 22px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted);
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-    user-select: none;
-  }
-  .tab:hover { color: var(--text); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  /* ── CONTENT ── */
-  .content { padding: 36px 48px; max-width: 1200px; }
   .diagram-panel { display: none; }
   .diagram-panel.active { display: block; }
-
-  .diagram-title {
-    font-size: 22px; font-weight: 700; color: var(--white);
-    margin-bottom: 6px;
-  }
-  .diagram-desc {
-    color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.6;
-  }
-  .diagram-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    overflow-x: auto;
-  }
   svg { display: block; }
-
-  /* ── LEGEND ── */
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 16px;
-    margin-top: 24px; padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
   .legend-box { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
-
-  /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 28px 48px;
-    color: var(--muted);
-    font-size: 13px;
-    border-top: 1px solid var(--border);
-    margin-top: 16px;
-  }
-  footer a { color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<header>
+<header class="diagram-page-header">
+  <div class="container">
   <div class="header-inner">
     <h1>AutonOps — <span>Delivery Operations Platform</span></h1>
     <p>End-to-end platform for work intake, AI-assisted assignment recommendations, rule governance, OKR goals, checklist workflows, and performance analytics. Built for delivery teams that need one unified space to align work, compliance, and reporting.</p>
@@ -155,17 +34,21 @@
       <div class="meta-item"><div class="meta-dot" style="background:#f7c948"></div>OpenAI GPT-4o-mini</div>
       <div class="meta-item"><div class="meta-dot" style="background:#f76f4f"></div>JWT RBAC · 5 Roles</div>
     </div>
+    </div>
   </div>
 </header>
 
 <div class="tabs-wrapper">
+  <div class="container">
   <div class="tab active" onclick="switchTab(0)">🏛 Architecture</div>
   <div class="tab" onclick="switchTab(1)">🔄 Process Flow</div>
   <div class="tab" onclick="switchTab(2)">⚙️ Execution Lifecycle</div>
   <div class="tab" onclick="switchTab(3)">🤝 Coordination Flow</div>
+  </div>
 </div>
 
-<div class="content">
+<section class="diagram-page-content">
+<div class="container">
 
 <!-- ══════════════════════════════════════════════
      DIAGRAM 1 — SYSTEM ARCHITECTURE
@@ -926,7 +809,8 @@
   </div>
 </div>
 
-</div><!-- /content -->
+</div><!-- /container -->
+</section><!-- /diagram-page-content -->
 
 <footer>
   Built by <strong style="color:var(--text)">Kandaswamy Subramaniyam</strong> &nbsp;·&nbsp;
