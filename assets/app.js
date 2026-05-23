@@ -192,10 +192,16 @@
         '</div>' +
         '<p class="summary">' + escapeHtml(study.summary) + '</p>' +
         '<ul class="metrics-list">' + renderMetrics(study.metrics) + '</ul>' +
-        '<div class="tag-row">' + renderTags(study.tags) + '</div>' +
-        '<div class="tech-row">' + renderTech(study.tech) + '</div>' +
+        '<div class="card-tag-section">' +
+          '<span class="card-section-label">Focus</span>' +
+          '<div class="tag-row">' + renderTags(study.tags) + '</div>' +
+        '</div>' +
+        '<div class="card-tech-section">' +
+          '<span class="card-section-label">techstack</span>' +
+          '<div class="tech-row">' + renderTech(study.tech) + '</div>' +
+        '</div>' +
         '<div class="card-links">' +
-          '<span class="card-links-label">Explore</span>' +
+          '<span class="card-section-label">Explore</span>' +
           '<a class="btn btn-pdf" href="' + escapeHtml(study.pdf) + '" target="_blank" rel="noopener">' +
             '<span class="btn-icon" aria-hidden="true">📄</span> PDF Case Study' +
           '</a>' +
