@@ -132,13 +132,17 @@ The homepage is served from `index.html` at the repository root.
 
 ## Local Preview
 
-Open `index.html` directly in a browser, or run a local server:
+**Do not open `index.html` directly as a file** — browsers block `fetch()` for local files (`file://`), which prevents case studies from loading.
+
+Use a local HTTP server instead:
 
 ```bash
 python -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`.
+Then open [http://localhost:8080](http://localhost:8080) in your browser.
+
+If JSON fails to load, the homepage falls back to embedded AutonOps and DAISY cards automatically.
 
 ---
 

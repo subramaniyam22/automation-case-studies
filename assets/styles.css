@@ -499,6 +499,21 @@ body.has-diagram-chrome { padding-top: 0; }
   border-color: rgba(79, 142, 247, 0.25);
 }
 
+.load-error-banner {
+  background: rgba(247, 111, 79, 0.1);
+  border: 1px solid rgba(247, 111, 79, 0.4);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.load-error-banner strong {
+  color: #f76f4f;
+}
+
 code {
   font-family: Consolas, 'Courier New', monospace;
   font-size: 0.9em;
