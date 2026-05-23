@@ -18,6 +18,10 @@
   --radius: 14px;
   --nav-height: 64px;
   --font: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-body: 15px;
+  --font-size-small: 13px;
+  --line-height-body: 1.65;
+  --content-width: 1140px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,7 +42,7 @@ a:hover { color: #7eb0ff; }
 img { max-width: 100%; display: block; }
 
 .container {
-  width: min(1140px, calc(100% - 40px));
+  width: min(var(--content-width), calc(100% - 40px));
   margin: 0 auto;
 }
 
@@ -132,10 +136,10 @@ img { max-width: 100%; display: block; }
 }
 
 .hero .intro {
-  font-size: 17px;
+  font-size: var(--font-size-body);
   color: var(--muted);
-  max-width: 720px;
-  line-height: 1.75;
+  max-width: none;
+  line-height: var(--line-height-body);
 }
 
 /* ── Sections ── */
@@ -154,8 +158,9 @@ section { padding: 64px 0; }
 
 .section-header p {
   color: var(--muted);
-  font-size: 15px;
-  max-width: 640px;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  max-width: none;
 }
 
 .section-alt { background: var(--surface); border-block: 1px solid var(--border); }
@@ -173,7 +178,7 @@ section { padding: 64px 0; }
   border-radius: var(--radius);
   padding: 20px 18px;
   text-align: center;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   color: var(--text);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
@@ -188,8 +193,9 @@ section { padding: 64px 0; }
 /* ── Case Study Cards ── */
 .case-study-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+  width: 100%;
 }
 
 .case-card {
@@ -202,6 +208,7 @@ section { padding: 64px 0; }
   gap: 16px;
   box-shadow: var(--shadow);
   transition: transform 0.25s, border-color 0.25s, background 0.25s;
+  width: 100%;
 }
 
 .case-card:hover {
@@ -218,15 +225,15 @@ section { padding: 64px 0; }
 }
 
 .case-card-header .category {
-  font-size: 13px;
+  font-size: var(--font-size-small);
   color: var(--teal);
   font-weight: 600;
 }
 
 .case-card .summary {
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--muted);
-  line-height: 1.65;
+  line-height: var(--line-height-body);
 }
 
 .tag-row, .tech-row {
@@ -262,8 +269,9 @@ section { padding: 64px 0; }
 }
 
 .metrics-list li {
-  font-size: 13px;
+  font-size: var(--font-size-body);
   color: var(--text);
+  line-height: var(--line-height-body);
   padding-left: 18px;
   position: relative;
 }
@@ -284,8 +292,9 @@ section { padding: 64px 0; }
   flex-wrap: wrap;
   gap: 8px;
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 12px;
   border-top: 1px solid var(--border);
+  align-items: center;
 }
 
 .btn {
@@ -352,7 +361,8 @@ section { padding: 64px 0; }
 }
 
 .impact-item p {
-  font-size: 13px;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
   color: var(--muted);
 }
 
@@ -550,6 +560,7 @@ code {
   section { padding: 48px 0; }
   .hero { padding: 48px 0 40px; }
   .case-card { padding: 22px; }
+  .case-study-grid { grid-template-columns: 1fr; }
   .diagram-chrome { padding: 0 16px; }
   .diagram-chrome-inner { justify-content: center; text-align: center; }
 }

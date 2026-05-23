@@ -192,8 +192,8 @@
         '<div class="tag-row">' + renderTags(study.tags) + '</div>' +
         '<div class="tech-row">' + renderTech(study.tech) + '</div>' +
         '<div class="card-links">' +
-          renderPageLinks(study.pages) +
           '<a class="btn btn-pdf" href="' + escapeHtml(study.pdf) + '" target="_blank" rel="noopener">PDF Case Study</a>' +
+          renderPageLinks(study.pages) +
         '</div>' +
       '</article>'
     );
