@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DAISY MVP — System Architecture Diagram</title>
 <link rel="stylesheet" href="../../assets/styles.css">
-<link rel="stylesheet" href="../../assets/diagram-page.css">
 <style>
-  /* Diagram-specific styles — layout/typography in diagram-page.css */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f1117; font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; }
+  .canvas { width: 960px; margin: 0 auto; }
+  .title-block { text-align: center; margin-bottom: 28px; }
+  .title-block h1 { font-size: 22px; font-weight: 700; color: #e2e8f0; letter-spacing: 0.5px; }
+  .title-block p { font-size: 12px; color: #64748b; margin-top: 6px; }
+  .badge { display: inline-block; background: #1e40af; color: #93c5fd; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; margin: 0 3px; letter-spacing: 0.5px; }
   .layer { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; border: 1px solid; }
   .layer-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
   .boxes { display: flex; gap: 10px; align-items: stretch; }
@@ -53,7 +58,7 @@
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
   .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
-  .watermark { text-align: center; margin-top: 20px; letter-spacing: 1px; }
+  .watermark { text-align: center; margin-top: 20px; font-size: 10px; color: #1e293b; letter-spacing: 1px; }
 </style>
 </head>
 <body>
