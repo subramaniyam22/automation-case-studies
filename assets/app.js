@@ -176,7 +176,10 @@
 
   function renderPageLinks(pages) {
     return pages.map(function (page) {
-      return '<a class="btn btn-secondary" href="' + escapeHtml(page.link) + '">' + escapeHtml(page.title) + '</a>';
+      return '<a class="btn btn-secondary" href="' + escapeHtml(page.link) + '">' +
+        '<span class="btn-icon" aria-hidden="true">↗</span>' +
+        escapeHtml(page.title) +
+      '</a>';
     }).join('');
   }
 
@@ -192,7 +195,10 @@
         '<div class="tag-row">' + renderTags(study.tags) + '</div>' +
         '<div class="tech-row">' + renderTech(study.tech) + '</div>' +
         '<div class="card-links">' +
-          '<a class="btn btn-pdf" href="' + escapeHtml(study.pdf) + '" target="_blank" rel="noopener">PDF Case Study</a>' +
+          '<span class="card-links-label">Explore</span>' +
+          '<a class="btn btn-pdf" href="' + escapeHtml(study.pdf) + '" target="_blank" rel="noopener">' +
+            '<span class="btn-icon" aria-hidden="true">📄</span> PDF Case Study' +
+          '</a>' +
           renderPageLinks(study.pages) +
         '</div>' +
       '</article>'
