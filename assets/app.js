@@ -197,7 +197,7 @@
           '<div class="tag-row">' + renderTags(study.tags) + '</div>' +
         '</div>' +
         '<div class="card-tech-section">' +
-          '<span class="card-section-label">techstack</span>' +
+          '<span class="card-section-label">Technical Stack</span>' +
           '<div class="tech-row">' + renderTech(study.tech) + '</div>' +
         '</div>' +
         '<div class="card-links">' +
