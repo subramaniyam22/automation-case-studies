@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAISY MVP — Execution Lifecycle</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #070b12; font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; }
+  .canvas { width: 980px; margin: 0 auto; }
+  .title-block { text-align: center; margin-bottom: 22px; }
+  .title-block h1 { font-size: 20px; font-weight: 700; color: #e2e8f0; }
+  .title-block p { font-size: 11px; color: #64748b; margin-top: 4px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .lc-flow { display: flex; flex-direction: column; gap: 0; }
+  .lc-step { display: flex; gap: 0; align-items: stretch; }
+  .lc-step-inner { display: flex; flex-direction: column; align-items: center; }
+  .lc-line { width: 2px; background: #1e293b; flex-shrink: 0; margin: 0 auto; flex: 1; min-height: 10px; }
+  .lc-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 2px solid; background: #070b12; }
+  .lc-card { border-radius: 9px; padding: 10px 13px; border: 1px solid; flex: 1; margin: 4px 0; margin-left: 10px; }
+  .lc-card-title { font-size: 11px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+  .lc-card-body { font-size: 9.5px; line-height: 1.6; }
+  .lc-num { font-size: 9px; font-weight: 700; opacity: 0.5; margin-right: 2px; }
+  .badge { display: inline-block; font-size: 8px; font-weight: 600; padding: 1px 5px; border-radius: 99px; margin-left: 4px; }
+  .dot-amber { border-color: #f59e0b; } .c-amber { background: #1c1507; border-color: #78350f; color: #fde68a; } .c-amber .lc-card-title { color: #fbbf24; }
+  .dot-green { border-color: #22c55e; } .c-green { background: #0c1f10; border-color: #166534; color: #bbf7d0; } .c-green .lc-card-title { color: #4ade80; }
+  .dot-blue { border-color: #3b82f6; } .c-blue { background: #0f1a30; border-color: #1e40af; color: #bfdbfe; } .c-blue .lc-card-title { color: #60a5fa; }
+  .dot-purple { border-color: #8b5cf6; } .c-purple { background: #1a0a30; border-color: #4c1d95; color: #ddd6fe; } .c-purple .lc-card-title { color: #a78bfa; }
+  .dot-cyan { border-color: #06b6d4; } .c-cyan { background: #0f1e1e; border-color: #0e7490; color: #a5f3fc; } .c-cyan .lc-card-title { color: #22d3ee; }
+  .dot-teal { border-color: #14b8a6; } .c-teal { background: #022c22; border-color: #065f46; color: #a7f3d0; } .c-teal .lc-card-title { color: #34d399; }
+  .dot-indigo { border-color: #6366f1; } .c-indigo { background: #0d0e2a; border-color: #3730a3; color: #c7d2fe; } .c-indigo .lc-card-title { color: #818cf8; }
+  .b-amber { background:#92400e; color:#fde68a; } .b-green { background:#166534; color:#bbf7d0; } .b-blue { background:#1e40af; color:#bfdbfe; } .b-purple { background:#4c1d95; color:#ddd6fe; } .b-cyan { background:#0e7490; color:#a5f3fc; } .b-teal { background:#065f46; color:#a7f3d0; } .b-indigo { background:#3730a3; color:#c7d2fe; }
+  .sec-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; padding: 5px 10px; border-radius: 6px; margin-bottom: 10px; display: inline-block; }
+  .sh-blue { background: #0f1a30; color: #60a5fa; border: 1px solid #1e40af; }
+  .sh-purple { background: #1a0a30; color: #a78bfa; border: 1px solid #4c1d95; }
+  .sh-amber { background: #1c1507; color: #fbbf24; border: 1px solid #78350f; }
+  .sh-teal { background: #022c22; color: #34d399; border: 1px solid #065f46; }
+  .sh-red { background: #200a0a; color: #f87171; border: 1px solid #991b1b; }
+  .sm-box { border-radius: 9px; padding: 12px 14px; border: 1px solid; margin-bottom: 13px; background: #0f1117; border-color: #1e293b; }
+  .sm-states { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+  .sm-state { border-radius: 6px; padding: 5px 10px; font-size: 9.5px; font-weight: 600; border: 1px solid; }
+  .sm-queued { background: #1c1507; border-color: #78350f; color: #fbbf24; } .sm-running { background: #0c1f10; border-color: #166534; color: #4ade80; } .sm-success { background: #022c22; border-color: #065f46; color: #34d399; } .sm-failed { background: #200a0a; border-color: #991b1b; color: #f87171; }
+  .arrow-h { color: #475569; font-size: 14px; margin: 0 3px; }
+  .cond-pill { font-size: 8.5px; color: #64748b; background: #1e293b; padding: 2px 6px; border-radius: 4px; }
+  .ec-box { border-radius: 8px; padding: 10px 13px; border: 1px solid #1e293b; background: #0f1117; margin-bottom: 13px; }
+  .ec-box h3 { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .ec-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ec { font-size: 8.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px; font-family: 'Courier New', monospace; background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+  .sb-steps { counter-reset: sb; display: flex; gap: 8px; }
+  .sb-step { flex: 1; border-radius: 7px; padding: 9px 10px; background: #1a0a30; border: 1px solid #4c1d95; color: #ddd6fe; counter-increment: sb; position: relative; }
+  .sb-step::before { content: counter(sb); position: absolute; top: 6px; right: 8px; font-size: 9px; color: #6d28d9; font-weight: 700; }
+  .sb-step h4 { font-size: 9.5px; font-weight: 700; color: #a78bfa; margin-bottom: 3px; }
+  .sb-step p { font-size: 9px; line-height: 1.5; }
+  .watermark { text-align: center; margin-top: 16px; font-size: 10px; color: #1e293b; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="title-block">
+    <h1>DAISY — Job Execution Lifecycle</h1>
+    <p>From project creation → Redis job queue → LangGraph worker → AI agents → S3 delivery &nbsp;·&nbsp; Autonomous pipeline with sweeper backstop</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="sec-head sh-blue">⚡ Main Execution Flow</div>
+      <div class="lc-flow">
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-amber"></div><div class="lc-line"></div></div><div class="lc-card c-amber"><div class="lc-card-title"><span class="lc-num">01</span> 🤝 Project Created / Stage Ready <span class="badge b-amber">Event trigger</span></div><div class="lc-card-body">Sales handover complete · Stage ready condition met · OR Sweeper detects ACTIVE project with no running job every ~90s. Auto-advance: previous stage success enqueues next.</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-green"></div><div class="lc-line"></div></div><div class="lc-card c-green"><div class="lc-card-title"><span class="lc-num">02</span> 📥 Job Enqueued to Redis <span class="badge b-green">Redis queue</span></div><div class="lc-card-body">POST /projects/{id}/advance · or pipeline auto-enqueues. Job record created in DB with status <strong>QUEUED</strong>. Stage job type: onboarding | assignment | build | test | defect_validation | complete.</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-blue"></div><div class="lc-line"></div></div><div class="lc-card c-blue"><div class="lc-card-title"><span class="lc-num">03</span> 🏭 Worker Polls Redis Queue <span class="badge b-blue">Background worker</span></div><div class="lc-card-body">Docker worker service (delivery-worker) continuously polls Redis. Claims job → sets status <strong>RUNNING</strong>. Sends heartbeat. If heartbeat exceeds stage_timeout_minutes → marked FAILED by sweeper.</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-purple"></div><div class="lc-line"></div></div><div class="lc-card c-purple"><div class="lc-card-title"><span class="lc-num">04</span> 🧠 LangGraph Workflow Executes <span class="badge b-purple">LangGraph 0.2.34</span></div><div class="lc-card-body">Worker invokes the LangGraph state machine for the current stage. Nodes: onboarding_node → assignment_node → build_hitl_node → test_node → defect_validation_node → complete_node. Each node delegates to a dedicated agent class.</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-cyan"></div><div class="lc-line"></div></div><div class="lc-card c-cyan"><div class="lc-card-title"><span class="lc-num">05</span> 🤖 AI Agent Runs Stage Logic <span class="badge b-cyan">GPT-4o</span></div><div class="lc-card-body">Agents in backend/app/agents/: OnboardingAgent · AssignmentAgent · BuildAgent · QAAgent · DefectAgent · CompletionAgent. Calls OpenAI GPT-4o (or FakeLLM fallback). Connector stubs: fetch_requirement(), fetch_external_task(), fetch_staging_url().</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-teal"></div><div class="lc-line"></div></div><div class="lc-card c-teal"><div class="lc-card-title"><span class="lc-num">06</span> 🏗️ Site Builder (Build stage) <span class="badge b-teal">runners/site_builder</span></div><div class="lc-card-body">Download template zip from S3 (fallback: Git clone) · Unzip to temp dir · Inject client_contract.json · Build (requires dist/index.html) · Upload previews/{project_id}/{run_id}/site/ (30d TTL) · Copy to deliveries/{project_id}/current/site/</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-indigo"></div><div class="lc-line"></div></div><div class="lc-card c-indigo"><div class="lc-card-title"><span class="lc-num">07</span> 💾 Stage Output Persisted <span class="badge b-indigo">PostgreSQL</span></div><div class="lc-card-body">StageOutputs record written. Stage history entry created (from_stage, to_stage, at, actor_user_id). Artifacts uploaded. Job status → <strong>SUCCESS</strong>. Audit log entry created with request_id.</div></div></div>
+        <div class="lc-step"><div class="lc-step-inner"><div class="lc-dot dot-green"></div><div class="lc-line"></div></div><div class="lc-card c-green"><div class="lc-card-title"><span class="lc-num">08</span> ⏩ Next Stage Enqueued <span class="badge b-green">Auto-advance</span></div><div class="lc-card-body">On success: transition to next stage, enqueue next job. If HITL gate enabled: pipeline pauses for human approval. If Complete: send final email (Resend) with CloudFront delivery URL + sentiment link.</div></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:13px;">
+      <div>
+        <div class="sec-head sh-purple">🔄 Job State Machine</div>
+        <div class="sm-box">
+          <div style="font-size:9.5px;color:#94a3b8;margin-bottom:8px;">Every job passes through these states. Sweeper marks RUNNING jobs failed if heartbeat exceeds timeout.</div>
+          <div class="sm-states"><div class="sm-state sm-queued">⏳ QUEUED</div><span class="arrow-h">→</span><div class="sm-state sm-running">▶ RUNNING</div><span class="arrow-h">→</span><div class="sm-state sm-success">✓ SUCCESS</div></div>
+          <div style="margin-top:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><div class="sm-state sm-running" style="font-size:8.5px;">▶ RUNNING</div><span class="arrow-h">→</span><span class="cond-pill">timeout exceeded</span><span class="arrow-h">→</span><div class="sm-state sm-failed">✗ FAILED</div><span class="arrow-h">→</span><span class="cond-pill">Admin re-enqueues</span><span class="arrow-h">→</span><div class="sm-state sm-queued">⏳ QUEUED</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head sh-amber">⏱️ Sweeper Backstop (~90s interval)</div>
+        <div class="lc-card c-amber" style="margin:0;"><div class="lc-card-body" style="line-height:1.8;">Runs inside the worker process every ~90 seconds:<br><strong>›</strong> Find ACTIVE projects with no running job<br><strong>›</strong> Enqueue ready stages (autopilot projects only)<br><strong>›</strong> Run onboarding reminders (cadence from Decision Policies)<br><strong>›</strong> Mark projects HOLD after max reminders (default 10)<br><strong>›</strong> Mark stuck RUNNING jobs as FAILED (timeout)<br><strong>›</strong> Skips HOLD and NEEDS_REVIEW projects</div></div>
+      </div>
+      <div>
+        <div class="sec-head sh-teal">🔒 Confirmation Portal Gate</div>
+        <div class="lc-card c-teal" style="margin:0;"><div class="lc-card-body" style="line-height:1.8;">Pipeline can block on <strong>ConfirmationRequest</strong> (fallback template / substitute artifact).<br><strong>›</strong> Worker creates ConfirmationRequest → status: PENDING<br><strong>›</strong> Client portal shows pending item (client_token auth)<br><strong>›</strong> Daily reminder email (max 10 via Resend)<br><strong>›</strong> Resolve: POST /confirmations/{id}/approve or /reject<br><strong>›</strong> On decision: pipeline unblocks, next job enqueued</div></div>
+      </div>
+      <div>
+        <div class="sec-head sh-red">🔴 Standard Error Codes (error_codes.py)</div>
+        <div class="ec-box" style="margin-bottom:0;"><div class="ec-list"><span class="ec">TIMEOUT_STUCK_RUN</span><span class="ec">JOB_EXECUTION_ERROR</span><span class="ec">DEFECT_CYCLE_CAP_REACHED</span><span class="ec">BUILD_RETRY_CAP_REACHED</span><span class="ec">TEMPLATE_ZIP_MISSING</span><span class="ec">DIST_INDEX_MISSING</span><span class="ec">CONFIRMATION_PENDING</span><span class="ec">HOLD_MAX_REMINDERS</span><span class="ec">CHROME_PATH_NOT_SET</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="sec-head sh-purple" style="margin-bottom:10px;">🏗️ Build Stage — Site Builder Execution Detail</div>
+    <div class="sb-steps">
+      <div class="sb-step"><h4>Download Template</h4><p>S3: templates/{template_id}/{version}/template.zip (immutable) · Fallback: Git clone repo_url + repo_path if NoSuchKey</p></div>
+      <div class="sb-step"><h4>Unzip &amp; Prepare</h4><p>Single-root or nested ZIP · Inject JS helpers · Root-relative paths · Into temp working dir</p></div>
+      <div class="sb-step"><h4>Inject Client Data</h4><p>Write data/client_contract.json · Client name, company, geo, requirements, theme, copy</p></div>
+      <div class="sb-step"><h4>Build (dist/)</h4><p>Run build script (npm/build.sh) · MUST output dist/index.html · Fail-fast: list top-level dirs if missing</p></div>
+      <div class="sb-step"><h4>Upload Preview</h4><p>S3: previews/{project_id}/{run_id}/site/ · Tagged expires=30d · CloudFront URL via get_preview_url()</p></div>
+      <div class="sb-step"><h4>Copy to Delivery</h4><p>S3: deliveries/{project_id}/current/site/ (stable) · History: /run_id/site/ · Proof packs: artifacts/ (180d)</p></div>
+    </div>
+  </div>
+
+  <div class="watermark" style="margin-top:20px;">DAISY MVP · Delivery Automation Intelligence System Yield · Execution Lifecycle Diagram</div>
+</div>
+</body>
+</html>

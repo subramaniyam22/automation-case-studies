@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AutonOps – Project Diagrams | Kandaswamy Subramaniyam</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --card: #1e2436;
+    --border: #2a3050;
+    --accent: #4f8ef7;
+    --accent2: #7c5cbf;
+    --accent3: #2ec4a3;
+    --accent4: #f76f4f;
+    --accent5: #f7c948;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --white: #ffffff;
+    --tab-active: #4f8ef7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0f1117 0%, #181c27 50%, #1a1e2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(79,142,247,0.08) 0%, transparent 70%);
+  }
+  .header-inner { position: relative; z-index: 1; max-width: 1100px; }
+  .badge {
+    display: inline-block;
+    background: rgba(79,142,247,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(79,142,247,0.35);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+  .meta-row {
+    display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 13px; color: var(--muted);
+  }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── TABS ── */
+  .tabs-wrapper {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex; gap: 4px;
+  }
+  .tab {
+    padding: 16px 22px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── CONTENT ── */
+  .content { padding: 36px 48px; max-width: 1200px; }
+  .diagram-panel { display: none; }
+  .diagram-panel.active { display: block; }
+
+  .diagram-title {
+    font-size: 22px; font-weight: 700; color: var(--white);
+    margin-bottom: 6px;
+  }
+  .diagram-desc {
+    color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.6;
+  }
+  .diagram-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+  svg { display: block; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    margin-top: 24px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .legend-box { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px 48px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>AutonOps — <span>Delivery Operations Platform</span></h1>
+    <p>End-to-end platform for work intake, AI-assisted assignment recommendations, rule governance, OKR goals, checklist workflows, and performance analytics. Built for delivery teams that need one unified space to align work, compliance, and reporting.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot" style="background:#4f8ef7"></div>React 19 + Vite</div>
+      <div class="meta-item"><div class="meta-dot" style="background:#2ec4a3"></div>Node.js + Express 5</div>
+      <div class="meta-item"><div class="meta-dot" style="background:#7c5cbf"></div>PostgreSQL 15+</div>
+      <div class="meta-item"><div class="meta-dot" style="background:#f7c948"></div>OpenAI GPT-4o-mini</div>
+      <div class="meta-item"><div class="meta-dot" style="background:#f76f4f"></div>JWT RBAC · 5 Roles</div>
+    </div>
+  </div>
+</header>
+
+<div class="tabs-wrapper">
+  <div class="tab active" onclick="switchTab(0)">🏛 Architecture</div>
+  <div class="tab" onclick="switchTab(1)">🔄 Process Flow</div>
+  <div class="tab" onclick="switchTab(2)">⚙️ Execution Lifecycle</div>
+  <div class="tab" onclick="switchTab(3)">🤝 Coordination Flow</div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════
+     DIAGRAM 1 — SYSTEM ARCHITECTURE
+═══════════════════════════════════════════════ -->
+<div class="diagram-panel active" id="panel-0">
+  <div class="diagram-title">System Architecture</div>
+  <div class="diagram-desc">Full-stack layered architecture — client, API gateway, domain modules, AI integration, persistence, and async job worker.</div>
+  <div class="diagram-card">
+    <svg viewBox="0 0 1050 680" xmlns="http://www.w3.org/2000/svg" width="100%" style="min-width:700px">
+      <defs>
+        <linearGradient id="g-blue" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#3a6fd8"/><stop offset="100%" stop-color="#4f8ef7"/>
+        </linearGradient>
+        <linearGradient id="g-purple" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#5e3fa3"/><stop offset="100%" stop-color="#7c5cbf"/>
+        </linearGradient>
+        <linearGradient id="g-teal" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#1a9e86"/><stop offset="100%" stop-color="#2ec4a3"/>
+        </linearGradient>
+        <linearGradient id="g-amber" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#c89a00"/><stop offset="100%" stop-color="#f7c948"/>
+        </linearGradient>
+        <linearGradient id="g-red" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#c04830"/><stop offset="100%" stop-color="#f76f4f"/>
+        </linearGradient>
+        <filter id="shadow" x="-5%" y="-5%" width="110%" height="120%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/>
+        </filter>
+      </defs>
+
+      <!-- BACKGROUND LAYERS -->
+      <!-- Layer 1: Client -->
+      <rect x="20" y="14" width="1010" height="100" rx="12" fill="rgba(79,142,247,0.07)" stroke="rgba(79,142,247,0.25)" stroke-width="1"/>
+      <!-- Layer 2: API -->
+      <rect x="20" y="130" width="1010" height="110" rx="12" fill="rgba(124,92,191,0.07)" stroke="rgba(124,92,191,0.25)" stroke-width="1"/>
+      <!-- Layer 3: Modules -->
+      <rect x="20" y="258" width="1010" height="150" rx="12" fill="rgba(46,196,163,0.06)" stroke="rgba(46,196,163,0.22)" stroke-width="1"/>
+      <!-- Layer 4: AI -->
+      <rect x="20" y="424" width="340" height="100" rx="12" fill="rgba(247,201,72,0.07)" stroke="rgba(247,201,72,0.25)" stroke-width="1"/>
+      <!-- Layer 5: DB / Storage -->
+      <rect x="376" y="424" width="350" height="100" rx="12" fill="rgba(124,92,191,0.07)" stroke="rgba(124,92,191,0.25)" stroke-width="1"/>
+      <!-- Layer 6: Jobs -->
+      <rect x="742" y="424" width="288" height="100" rx="12" fill="rgba(247,111,79,0.07)" stroke="rgba(247,111,79,0.25)" stroke-width="1"/>
+
+      <!-- LAYER LABELS -->
+      <text x="34" y="34" fill="rgba(79,142,247,0.7)" font-size="11" font-weight="700" letter-spacing="1.5" font-family="system-ui">CLIENT LAYER</text>
+      <text x="34" y="148" fill="rgba(124,92,191,0.7)" font-size="11" font-weight="700" letter-spacing="1.5" font-family="system-ui">API GATEWAY</text>
+      <text x="34" y="276" fill="rgba(46,196,163,0.7)" font-size="11" font-weight="700" letter-spacing="1.5" font-family="system-ui">DOMAIN MODULES</text>
+      <text x="34" y="442" fill="rgba(247,201,72,0.7)" font-size="11" font-weight="700" letter-spacing="1.5" font-family="system-ui">AI LAYER</text>
+      <text x="390" y="442" fill="rgba(124,92,191,0.7)" font-size="11" font-weight="700" letter-spacing="1.5" font-family="system-ui">PERSISTENCE</text>
+      <text x="756" y="442" fill="rgba(247,111,79,0.7)" font-size="11" font-weight="700" letter-spacing="1.5" font-family="system-ui">ASYNC JOBS</text>
+
+      <!-- ── CLIENT LAYER BOXES ── -->
+      <!-- React 19 -->
+      <rect x="48" y="44" width="130" height="58" rx="8" fill="url(#g-blue)" filter="url(#shadow)"/>
+      <text x="113" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">React 19</text>
+      <text x="113" y="87" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">Vite 8 · React Router 7</text>
+
+      <!-- TanStack Query -->
+      <rect x="198" y="44" width="140" height="58" rx="8" fill="url(#g-blue)" filter="url(#shadow)"/>
+      <text x="268" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">TanStack Query 5</text>
+      <text x="268" y="87" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">Server state · caching</text>
+
+      <!-- RBAC/Permissions -->
+      <rect x="358" y="44" width="140" height="58" rx="8" fill="url(#g-blue)" filter="url(#shadow)"/>
+      <text x="428" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">PermissionsContext</text>
+      <text x="428" y="87" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">PageGate · RBAC UI</text>
+
+      <!-- DnD / UI -->
+      <rect x="518" y="44" width="130" height="58" rx="8" fill="url(#g-blue)" filter="url(#shadow)"/>
+      <text x="583" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">@dnd-kit</text>
+      <text x="583" y="87" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">Drag-and-drop Goals</text>
+
+      <!-- Auth Context -->
+      <rect x="668" y="44" width="130" height="58" rx="8" fill="url(#g-blue)" filter="url(#shadow)"/>
+      <text x="733" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">AuthContext</text>
+      <text x="733" y="87" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">JWT cookie · session</text>
+
+      <!-- Lucide -->
+      <rect x="818" y="44" width="130" height="58" rx="8" fill="url(#g-blue)" filter="url(#shadow)"/>
+      <text x="883" y="70" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">DismissibleNotice</text>
+      <text x="883" y="87" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">Banners · Lucide icons</text>
+
+      <!-- ── API LAYER BOXES ── -->
+      <!-- Express 5 -->
+      <rect x="48" y="160" width="140" height="64" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="118" y="188" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">Express 5 + Node 20</text>
+      <text x="118" y="205" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">server.js · app.js · ESM</text>
+
+      <!-- Auth Middleware -->
+      <rect x="208" y="160" width="140" height="64" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="278" y="188" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">Auth Middleware</text>
+      <text x="278" y="205" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">JWT · bcrypt · cookie</text>
+
+      <!-- RBAC Middleware -->
+      <rect x="368" y="160" width="150" height="64" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="443" y="188" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">RBAC Middleware</text>
+      <text x="443" y="205" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">requirePermission · gates</text>
+
+      <!-- Zod Validation -->
+      <rect x="538" y="160" width="140" height="64" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="608" y="188" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">Zod Validation</text>
+      <text x="608" y="205" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">Body · params · query</text>
+
+      <!-- Rate Limit / Helmet -->
+      <rect x="698" y="160" width="145" height="64" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="770" y="188" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">Security Layer</text>
+      <text x="770" y="205" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">Helmet · CORS · rate-limit</text>
+
+      <!-- Register Routes -->
+      <rect x="863" y="160" width="140" height="64" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="933" y="188" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">registerRoutes.js</text>
+      <text x="933" y="205" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">All /api/* routers</text>
+
+      <!-- ── DOMAIN MODULES (grid 2 rows) ── -->
+      <!-- Row 1 -->
+      <rect x="48"  y="287" width="103" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="99"  y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Auth/Users</text>
+      <text x="99"  y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">register · reset</text>
+
+      <rect x="162" y="287" width="103" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="213" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Intake</text>
+      <text x="213" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">upload · process</text>
+
+      <rect x="276" y="287" width="103" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="327" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Tasks</text>
+      <text x="327" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">CRUD · scope flags</text>
+
+      <rect x="390" y="287" width="115" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="447" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Assignments</text>
+      <text x="447" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">engine · review queue</text>
+
+      <rect x="516" y="287" width="103" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="567" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Rules</text>
+      <text x="567" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">library · versioning</text>
+
+      <rect x="630" y="287" width="103" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="681" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Checklists</text>
+      <text x="681" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">templates · runs</text>
+
+      <rect x="744" y="287" width="103" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="795" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Goals / OKRs</text>
+      <text x="795" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">KRs · actions · links</text>
+
+      <rect x="858" y="287" width="115" height="50" rx="7" fill="rgba(46,196,163,0.18)" stroke="rgba(46,196,163,0.5)" stroke-width="1.2"/>
+      <text x="915" y="308" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Performance</text>
+      <text x="915" y="325" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">analytics · summaries</text>
+
+      <!-- Row 2 -->
+      <rect x="48"  y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="99"  y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Documents</text>
+      <text x="99"  y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">upload · AI chat</text>
+
+      <rect x="162" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="213" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Requirements</text>
+      <text x="213" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">extraction · reprocess</text>
+
+      <rect x="276" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="327" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Innovation</text>
+      <text x="327" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">ideas · categories</text>
+
+      <rect x="390" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="441" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Settings</text>
+      <text x="441" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">RBAC matrix · config</text>
+
+      <rect x="504" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="555" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Dashboard</text>
+      <text x="555" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">metrics · AI suggest</text>
+
+      <rect x="618" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="669" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Clients/Projects</text>
+      <text x="669" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">hierarchy · linking</text>
+
+      <rect x="732" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="783" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Platform</text>
+      <text x="783" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">bootstrap · session</text>
+
+      <rect x="846" y="348" width="103" height="50" rx="7" fill="rgba(46,196,163,0.12)" stroke="rgba(46,196,163,0.35)" stroke-width="1"/>
+      <text x="897" y="369" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Audit / Agents</text>
+      <text x="897" y="386" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">/api/agents evaluate</text>
+
+      <!-- ── BOTTOM LAYER BOXES ── -->
+      <!-- AI -->
+      <rect x="48" y="454" width="140" height="58" rx="8" fill="url(#g-amber)" filter="url(#shadow)"/>
+      <text x="118" y="480" text-anchor="middle" fill="#1a1000" font-size="13" font-weight="700" font-family="system-ui">OpenAI GPT-4o-mini</text>
+      <text x="118" y="497" text-anchor="middle" fill="rgba(0,0,0,0.6)" font-size="10.5" font-family="system-ui">Assignments · Checklists · Chat</text>
+
+      <rect x="204" y="454" width="140" height="58" rx="8" fill="rgba(247,201,72,0.2)" stroke="rgba(247,201,72,0.45)" stroke-width="1.2"/>
+      <text x="274" y="480" text-anchor="middle" fill="#f7c948" font-size="13" font-weight="700" font-family="system-ui">AI Features</text>
+      <text x="274" y="497" text-anchor="middle" fill="rgba(247,201,72,0.7)" font-size="10.5" font-family="system-ui">Extraction · Blockers · Chat</text>
+
+      <!-- Postgres -->
+      <rect x="392" y="454" width="145" height="58" rx="8" fill="url(#g-purple)" filter="url(#shadow)"/>
+      <text x="464" y="480" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">PostgreSQL 16</text>
+      <text x="464" y="497" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">37 migrations · pg driver</text>
+
+      <rect x="549" y="454" width="148" height="58" rx="8" fill="rgba(124,92,191,0.2)" stroke="rgba(124,92,191,0.45)" stroke-width="1.2"/>
+      <text x="623" y="480" text-anchor="middle" fill="#7c5cbf" font-size="13" font-weight="700" font-family="system-ui">File Storage</text>
+      <text x="623" y="497" text-anchor="middle" fill="rgba(124,92,191,0.7)" font-size="10.5" font-family="system-ui">multer · exceljs · mammoth</text>
+
+      <!-- Jobs -->
+      <rect x="758" y="454" width="145" height="58" rx="8" fill="url(#g-red)" filter="url(#shadow)"/>
+      <text x="830" y="480" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">Job Worker</text>
+      <text x="830" y="497" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="10.5" font-family="system-ui">In-process async intake</text>
+
+      <rect x="915" y="454" width="100" height="58" rx="8" fill="rgba(247,111,79,0.2)" stroke="rgba(247,111,79,0.45)" stroke-width="1.2"/>
+      <text x="965" y="480" text-anchor="middle" fill="#f76f4f" font-size="13" font-weight="700" font-family="system-ui">Docker</text>
+      <text x="965" y="497" text-anchor="middle" fill="rgba(247,111,79,0.7)" font-size="10.5" font-family="system-ui">PG 16-alpine</text>
+
+      <!-- ARROWS Client → API -->
+      <line x1="525" y1="102" x2="525" y2="130" stroke="rgba(79,142,247,0.5)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-blue)"/>
+      <!-- API → Modules -->
+      <line x1="525" y1="224" x2="525" y2="258" stroke="rgba(124,92,191,0.5)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-purple)"/>
+      <!-- Modules → AI -->
+      <line x1="260" y1="398" x2="200" y2="424" stroke="rgba(46,196,163,0.4)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-teal)"/>
+      <!-- Modules → DB -->
+      <line x1="525" y1="398" x2="490" y2="424" stroke="rgba(46,196,163,0.4)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-teal)"/>
+      <!-- Modules → Jobs -->
+      <line x1="780" y1="398" x2="830" y2="424" stroke="rgba(46,196,163,0.4)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-teal)"/>
+
+      <defs>
+        <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(79,142,247,0.7)"/>
+        </marker>
+        <marker id="arr-purple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(124,92,191,0.7)"/>
+        </marker>
+        <marker id="arr-teal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="rgba(46,196,163,0.7)"/>
+        </marker>
+      </defs>
+
+      <!-- TECH STACK ROW -->
+      <text x="525" y="576" text-anchor="middle" fill="rgba(136,146,176,0.7)" font-size="12" font-family="system-ui">
+        React 19 · Vite 8 · TanStack Query 5 · Node.js 20+ ESM · Express 5 · PostgreSQL 16 · Zod 4 · JWT · OpenAI SDK v6 · Docker
+      </text>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box" style="background:#4f8ef7"></div>Client / Frontend Layer</div>
+      <div class="legend-item"><div class="legend-box" style="background:#7c5cbf"></div>API Gateway &amp; Middleware</div>
+      <div class="legend-item"><div class="legend-box" style="background:#2ec4a3"></div>Domain Modules</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f7c948"></div>AI Integration</div>
+      <div class="legend-item"><div class="legend-box" style="background:#5e3fa3"></div>Persistence / Storage</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f76f4f"></div>Async Job Worker</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DIAGRAM 2 — PROCESS FLOW (SWIMLANE)
+═══════════════════════════════════════════════ -->
+<div class="diagram-panel" id="panel-1">
+  <div class="diagram-title">Process Flow</div>
+  <div class="diagram-desc">End-to-end operational workflow across five major functional areas — from file intake to performance reporting.</div>
+  <div class="diagram-card">
+    <svg viewBox="0 0 1040 560" xmlns="http://www.w3.org/2000/svg" width="100%" style="min-width:700px">
+      <defs>
+        <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#8892b0"/>
+        </marker>
+        <marker id="arr-w" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.5)"/>
+        </marker>
+      </defs>
+
+      <!-- SWIM LANE ROWS -->
+      <!-- Lane 1: Intake -->
+      <rect x="0" y="0" width="1040" height="100" rx="0" fill="rgba(79,142,247,0.06)"/>
+      <rect x="0" y="0" width="130" height="100" fill="rgba(79,142,247,0.14)"/>
+      <text x="65" y="44" text-anchor="middle" fill="#4f8ef7" font-size="12" font-weight="700" font-family="system-ui">INTAKE</text>
+      <text x="65" y="62" text-anchor="middle" fill="rgba(79,142,247,0.7)" font-size="10" font-family="system-ui">File Processing</text>
+
+      <!-- Lane 2: Tasks -->
+      <rect x="0" y="100" width="1040" height="100" fill="rgba(46,196,163,0.05)"/>
+      <rect x="0" y="100" width="130" height="100" fill="rgba(46,196,163,0.12)"/>
+      <text x="65" y="144" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">TASKS</text>
+      <text x="65" y="162" text-anchor="middle" fill="rgba(46,196,163,0.7)" font-size="10" font-family="system-ui">Work Management</text>
+
+      <!-- Lane 3: Assignments -->
+      <rect x="0" y="200" width="1040" height="100" fill="rgba(247,201,72,0.05)"/>
+      <rect x="0" y="200" width="130" height="100" fill="rgba(247,201,72,0.12)"/>
+      <text x="65" y="244" text-anchor="middle" fill="#f7c948" font-size="12" font-weight="700" font-family="system-ui">ASSIGNMENTS</text>
+      <text x="65" y="262" text-anchor="middle" fill="rgba(247,201,72,0.7)" font-size="10" font-family="system-ui">AI Recommendations</text>
+
+      <!-- Lane 4: Rules/Checklists -->
+      <rect x="0" y="300" width="1040" height="100" fill="rgba(124,92,191,0.05)"/>
+      <rect x="0" y="300" width="130" height="100" fill="rgba(124,92,191,0.12)"/>
+      <text x="65" y="344" text-anchor="middle" fill="#7c5cbf" font-size="12" font-weight="700" font-family="system-ui">RULES &amp;</text>
+      <text x="65" y="360" text-anchor="middle" fill="#7c5cbf" font-size="12" font-weight="700" font-family="system-ui">CHECKLISTS</text>
+      <text x="65" y="378" text-anchor="middle" fill="rgba(124,92,191,0.7)" font-size="10" font-family="system-ui">Governance</text>
+
+      <!-- Lane 5: Performance/Goals -->
+      <rect x="0" y="400" width="1040" height="100" fill="rgba(247,111,79,0.05)"/>
+      <rect x="0" y="400" width="130" height="100" fill="rgba(247,111,79,0.12)"/>
+      <text x="65" y="444" text-anchor="middle" fill="#f76f4f" font-size="12" font-weight="700" font-family="system-ui">PERFORMANCE</text>
+      <text x="65" y="462" text-anchor="middle" fill="rgba(247,111,79,0.7)" font-size="10" font-family="system-ui">&amp; Goals</text>
+
+      <!-- Lane dividers -->
+      <line x1="130" y1="0" x2="130" y2="500" stroke="rgba(42,48,80,0.8)" stroke-width="1.5"/>
+      <line x1="0" y1="100" x2="1040" y2="100" stroke="rgba(42,48,80,0.5)" stroke-width="1"/>
+      <line x1="0" y1="200" x2="1040" y2="200" stroke="rgba(42,48,80,0.5)" stroke-width="1"/>
+      <line x1="0" y1="300" x2="1040" y2="300" stroke="rgba(42,48,80,0.5)" stroke-width="1"/>
+      <line x1="0" y1="400" x2="1040" y2="400" stroke="rgba(42,48,80,0.5)" stroke-width="1"/>
+      <line x1="0" y1="500" x2="1040" y2="500" stroke="rgba(42,48,80,0.5)" stroke-width="1"/>
+
+      <!-- ── INTAKE LANE NODES ── -->
+      <!-- Upload File -->
+      <rect x="148" y="18" width="120" height="62" rx="8" fill="#1a2340" stroke="#4f8ef7" stroke-width="1.5"/>
+      <text x="208" y="43" text-anchor="middle" fill="#4f8ef7" font-size="12" font-weight="700" font-family="system-ui">Upload File</text>
+      <text x="208" y="59" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Excel / CSV</text>
+      <text x="208" y="72" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">multer · exceljs</text>
+
+      <!-- Date Filter -->
+      <rect x="296" y="18" width="120" height="62" rx="8" fill="#1a2340" stroke="#4f8ef7" stroke-width="1.5"/>
+      <text x="356" y="43" text-anchor="middle" fill="#4f8ef7" font-size="12" font-weight="700" font-family="system-ui">Date Filter</text>
+      <text x="356" y="59" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Optional range</text>
+      <text x="356" y="72" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">filter rows</text>
+
+      <!-- Batch Process -->
+      <rect x="444" y="18" width="120" height="62" rx="8" fill="#4f8ef7"/>
+      <text x="504" y="43" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="system-ui">Batch Process</text>
+      <text x="504" y="59" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="system-ui">POST /api/intake/</text>
+      <text x="504" y="72" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="system-ui">process · job queue</text>
+
+      <!-- Validate -->
+      <rect x="592" y="18" width="120" height="62" rx="8" fill="#1a2340" stroke="#4f8ef7" stroke-width="1.5"/>
+      <text x="652" y="43" text-anchor="middle" fill="#4f8ef7" font-size="12" font-weight="700" font-family="system-ui">Validate</text>
+      <text x="652" y="59" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Zod schema</text>
+      <text x="652" y="72" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">error · reject</text>
+
+      <!-- Arrows in intake lane -->
+      <line x1="268" y1="49" x2="296" y2="49" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="416" y1="49" x2="444" y2="49" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="564" y1="49" x2="592" y2="49" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <!-- ── TASKS LANE NODES ── -->
+      <rect x="148" y="118" width="120" height="62" rx="8" fill="#1a2d28" stroke="#2ec4a3" stroke-width="1.5"/>
+      <text x="208" y="143" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Create / Update</text>
+      <text x="208" y="160" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Task in DB</text>
+      <text x="208" y="173" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">from intake rows</text>
+
+      <rect x="296" y="118" width="120" height="62" rx="8" fill="#1a2d28" stroke="#2ec4a3" stroke-width="1.5"/>
+      <text x="356" y="143" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Requirements</text>
+      <text x="356" y="160" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Extract · AI</text>
+      <text x="356" y="173" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">reprocess</text>
+
+      <rect x="444" y="118" width="120" height="62" rx="8" fill="#2ec4a3"/>
+      <text x="504" y="143" text-anchor="middle" fill="#0f1a17" font-size="12" font-weight="700" font-family="system-ui">Scope Validate</text>
+      <text x="504" y="160" text-anchor="middle" fill="rgba(0,0,0,0.65)" font-size="10" font-family="system-ui">upload scope doc</text>
+      <text x="504" y="173" text-anchor="middle" fill="rgba(0,0,0,0.65)" font-size="10" font-family="system-ui">flag creep → blocked</text>
+
+      <rect x="592" y="118" width="120" height="62" rx="8" fill="#1a2d28" stroke="#2ec4a3" stroke-width="1.5"/>
+      <text x="652" y="143" text-anchor="middle" fill="#2ec4a3" font-size="12" font-weight="700" font-family="system-ui">Activity Log</text>
+      <text x="652" y="160" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">audit trail</text>
+      <text x="652" y="173" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">per task</text>
+
+      <line x1="268" y1="149" x2="296" y2="149" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="416" y1="149" x2="444" y2="149" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="564" y1="149" x2="592" y2="149" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <!-- Cross-lane: Intake → Tasks -->
+      <line x1="504" y1="80" x2="504" y2="118" stroke="rgba(79,142,247,0.45)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+      <!-- ── ASSIGNMENTS LANE ── -->
+      <rect x="148" y="218" width="120" height="62" rx="8" fill="#29260e" stroke="#f7c948" stroke-width="1.5"/>
+      <text x="208" y="243" text-anchor="middle" fill="#f7c948" font-size="12" font-weight="700" font-family="system-ui">Score Engine</text>
+      <text x="208" y="260" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">per task / batch</text>
+      <text x="208" y="273" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">dimension weights</text>
+
+      <rect x="296" y="218" width="120" height="62" rx="8" fill="#29260e" stroke="#f7c948" stroke-width="1.5"/>
+      <text x="356" y="243" text-anchor="middle" fill="#f7c948" font-size="12" font-weight="700" font-family="system-ui">Review Queue</text>
+      <text x="356" y="260" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">ranked candidates</text>
+      <text x="356" y="273" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">explainability</text>
+
+      <rect x="444" y="218" width="120" height="62" rx="8" fill="#f7c948"/>
+      <text x="504" y="243" text-anchor="middle" fill="#1a1000" font-size="12" font-weight="700" font-family="system-ui">Human Review</text>
+      <text x="504" y="260" text-anchor="middle" fill="rgba(0,0,0,0.65)" font-size="10" font-family="system-ui">Approve / Override</text>
+      <text x="504" y="273" text-anchor="middle" fill="rgba(0,0,0,0.65)" font-size="10" font-family="system-ui">Dismiss</text>
+
+      <rect x="592" y="218" width="120" height="62" rx="8" fill="#29260e" stroke="#f7c948" stroke-width="1.5"/>
+      <text x="652" y="243" text-anchor="middle" fill="#f7c948" font-size="12" font-weight="700" font-family="system-ui">Agent Evaluate</text>
+      <text x="652" y="260" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">/api/agents/</text>
+      <text x="652" y="273" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">evaluate</text>
+
+      <line x1="268" y1="249" x2="296" y2="249" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="416" y1="249" x2="444" y2="249" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="564" y1="249" x2="592" y2="249" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <!-- Cross: Tasks → Assignments -->
+      <line x1="356" y1="180" x2="356" y2="218" stroke="rgba(46,196,163,0.4)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+      <!-- ── RULES & CHECKLISTS LANE ── -->
+      <rect x="148" y="318" width="120" height="62" rx="8" fill="#1e1830" stroke="#7c5cbf" stroke-width="1.5"/>
+      <text x="208" y="343" text-anchor="middle" fill="#7c5cbf" font-size="12" font-weight="700" font-family="system-ui">Rule Library</text>
+      <text x="208" y="360" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">sets · versions</text>
+      <text x="208" y="373" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Excel import</text>
+
+      <rect x="296" y="318" width="120" height="62" rx="8" fill="#1e1830" stroke="#7c5cbf" stroke-width="1.5"/>
+      <text x="356" y="343" text-anchor="middle" fill="#7c5cbf" font-size="12" font-weight="700" font-family="system-ui">Checklist Template</text>
+      <text x="356" y="360" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">admin configures</text>
+      <text x="356" y="373" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">items · publish</text>
+
+      <rect x="444" y="318" width="120" height="62" rx="8" fill="#7c5cbf"/>
+      <text x="504" y="343" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="system-ui">Run Checklist</text>
+      <text x="504" y="360" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="system-ui">per task · statuses</text>
+      <text x="504" y="373" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="system-ui">to-do·defer·OOS</text>
+
+      <rect x="592" y="318" width="120" height="62" rx="8" fill="#1e1830" stroke="#7c5cbf" stroke-width="1.5"/>
+      <text x="652" y="343" text-anchor="middle" fill="#7c5cbf" font-size="12" font-weight="700" font-family="system-ui">AI Validate &amp; Submit</text>
+      <text x="652" y="360" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">bypass justification</text>
+      <text x="652" y="373" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">gate → submit</text>
+
+      <line x1="268" y1="349" x2="296" y2="349" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="416" y1="349" x2="444" y2="349" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="564" y1="349" x2="592" y2="349" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="504" y1="280" x2="504" y2="318" stroke="rgba(247,201,72,0.35)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+      <!-- ── PERFORMANCE LANE ── -->
+      <rect x="148" y="418" width="120" height="62" rx="8" fill="#231816" stroke="#f76f4f" stroke-width="1.5"/>
+      <text x="208" y="443" text-anchor="middle" fill="#f76f4f" font-size="12" font-weight="700" font-family="system-ui">Dashboard</text>
+      <text x="208" y="460" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">role-scoped metrics</text>
+      <text x="208" y="473" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">AI blocker suggest</text>
+
+      <rect x="296" y="418" width="120" height="62" rx="8" fill="#231816" stroke="#f76f4f" stroke-width="1.5"/>
+      <text x="356" y="443" text-anchor="middle" fill="#f76f4f" font-size="12" font-weight="700" font-family="system-ui">Goals / OKRs</text>
+      <text x="356" y="460" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">objectives → KRs</text>
+      <text x="356" y="473" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">→ actions</text>
+
+      <rect x="444" y="418" width="120" height="62" rx="8" fill="#f76f4f"/>
+      <text x="504" y="443" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="system-ui">Performance Report</text>
+      <text x="504" y="460" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="system-ui">feedback · stats</text>
+      <text x="504" y="473" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="system-ui">by role / location</text>
+
+      <rect x="592" y="418" width="120" height="62" rx="8" fill="#231816" stroke="#f76f4f" stroke-width="1.5"/>
+      <text x="652" y="443" text-anchor="middle" fill="#f76f4f" font-size="12" font-weight="700" font-family="system-ui">Innovation</text>
+      <text x="652" y="460" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">ideas · categories</text>
+      <text x="652" y="473" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">custom sections</text>
+
+      <line x1="268" y1="449" x2="296" y2="449" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="416" y1="449" x2="444" y2="449" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="564" y1="449" x2="592" y2="449" stroke="#8892b0" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="652" y1="380" x2="652" y2="418" stroke="rgba(124,92,191,0.4)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+      <!-- Footer label -->
+      <text x="520" y="540" text-anchor="middle" fill="rgba(136,146,176,0.6)" font-size="11.5" font-family="system-ui">AutonOps — Delivery Operations Platform · End-to-End Process Flow</text>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box" style="background:#4f8ef7"></div>Intake &amp; File Processing</div>
+      <div class="legend-item"><div class="legend-box" style="background:#2ec4a3"></div>Task Management</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f7c948"></div>Assignment Engine</div>
+      <div class="legend-item"><div class="legend-box" style="background:#7c5cbf"></div>Rules &amp; Checklists</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f76f4f"></div>Performance &amp; Goals</div>
+      <div class="legend-item" style="margin-left:12px"><span style="color:#8892b0;font-size:11px">— — → Cross-lane data flow</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DIAGRAM 3 — EXECUTION LIFECYCLE
+═══════════════════════════════════════════════ -->
+<div class="diagram-panel" id="panel-2">
+  <div class="diagram-title">Task Execution Lifecycle</div>
+  <div class="diagram-desc">A single task's journey through AutonOps — from raw file upload to performance analytics — with state transitions and decision gates along the way.</div>
+  <div class="diagram-card">
+    <svg viewBox="0 0 1040 420" xmlns="http://www.w3.org/2000/svg" width="100%" style="min-width:700px">
+      <defs>
+        <marker id="lc-arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L10,3 z" fill="#8892b0"/>
+        </marker>
+        <marker id="lc-arr-g" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L10,3 z" fill="#2ec4a3"/>
+        </marker>
+        <marker id="lc-arr-r" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L10,3 z" fill="#f76f4f"/>
+        </marker>
+      </defs>
+
+      <!-- TIMELINE SPINE -->
+      <line x1="50" y1="185" x2="990" y2="185" stroke="rgba(79,142,247,0.25)" stroke-width="2"/>
+
+      <!-- Stage nodes + labels -->
+      <!-- Stage 1: Upload -->
+      <circle cx="85" cy="185" r="28" fill="#1a2340" stroke="#4f8ef7" stroke-width="2.5"/>
+      <text x="85" y="181" text-anchor="middle" fill="#4f8ef7" font-size="10" font-weight="700" font-family="system-ui">FILE</text>
+      <text x="85" y="195" text-anchor="middle" fill="#4f8ef7" font-size="10" font-weight="700" font-family="system-ui">UPLOAD</text>
+      <text x="85" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Excel/CSV</text>
+      <text x="85" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">multer</text>
+      <!-- label above -->
+      <text x="85" y="145" text-anchor="middle" fill="#4f8ef7" font-size="11" font-weight="700" font-family="system-ui">①</text>
+      <text x="85" y="130" text-anchor="middle" fill="rgba(79,142,247,0.5)" font-size="9" font-family="system-ui">Start</text>
+
+      <!-- Stage 2: Parse & Queue -->
+      <circle cx="195" cy="185" r="28" fill="#1a2340" stroke="#4f8ef7" stroke-width="2"/>
+      <text x="195" y="181" text-anchor="middle" fill="#4f8ef7" font-size="10" font-weight="700" font-family="system-ui">PARSE</text>
+      <text x="195" y="195" text-anchor="middle" fill="#4f8ef7" font-size="10" font-weight="700" font-family="system-ui">&amp; QUEUE</text>
+      <text x="195" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Job Worker</text>
+      <text x="195" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Pending state</text>
+      <text x="195" y="145" text-anchor="middle" fill="#4f8ef7" font-size="11" font-weight="700" font-family="system-ui">②</text>
+
+      <!-- Stage 3: Validate/Process -->
+      <circle cx="305" cy="185" r="28" fill="#4f8ef7"/>
+      <text x="305" y="181" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="system-ui">PROCESS</text>
+      <text x="305" y="195" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="system-ui">PIPELINE</text>
+      <text x="305" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Zod validate</text>
+      <text x="305" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">batch process</text>
+      <text x="305" y="145" text-anchor="middle" fill="#4f8ef7" font-size="11" font-weight="700" font-family="system-ui">③</text>
+      <!-- Error branch -->
+      <text x="305" y="100" text-anchor="middle" fill="#f76f4f" font-size="10" font-family="system-ui">NO_PENDING</text>
+      <text x="305" y="113" text-anchor="middle" fill="#f76f4f" font-size="10" font-family="system-ui">→ 400 error</text>
+      <line x1="305" y1="157" x2="305" y2="115" stroke="rgba(247,111,79,0.45)" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#lc-arr-r)"/>
+
+      <!-- Stage 4: Task in DB -->
+      <circle cx="415" cy="185" r="28" fill="#1a2d28" stroke="#2ec4a3" stroke-width="2"/>
+      <text x="415" y="181" text-anchor="middle" fill="#2ec4a3" font-size="10" font-weight="700" font-family="system-ui">TASK</text>
+      <text x="415" y="195" text-anchor="middle" fill="#2ec4a3" font-size="10" font-weight="700" font-family="system-ui">CREATED</text>
+      <text x="415" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">DB upsert</text>
+      <text x="415" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">status: open</text>
+      <text x="415" y="145" text-anchor="middle" fill="#2ec4a3" font-size="11" font-weight="700" font-family="system-ui">④</text>
+
+      <!-- Stage 5: Requirements -->
+      <circle cx="525" cy="185" r="28" fill="#1a2d28" stroke="#2ec4a3" stroke-width="2"/>
+      <text x="525" y="181" text-anchor="middle" fill="#2ec4a3" font-size="10" font-weight="700" font-family="system-ui">REQUIRE</text>
+      <text x="525" y="195" text-anchor="middle" fill="#2ec4a3" font-size="10" font-weight="700" font-family="system-ui">MENTS</text>
+      <text x="525" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">AI extraction</text>
+      <text x="525" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">scope validate</text>
+      <text x="525" y="145" text-anchor="middle" fill="#2ec4a3" font-size="11" font-weight="700" font-family="system-ui">⑤</text>
+      <!-- Scope flag branch -->
+      <text x="525" y="100" text-anchor="middle" fill="#f7c948" font-size="10" font-family="system-ui">Scope creep</text>
+      <text x="525" y="113" text-anchor="middle" fill="#f7c948" font-size="10" font-family="system-ui">→ blocked</text>
+      <line x1="525" y1="157" x2="525" y2="115" stroke="rgba(247,201,72,0.4)" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#lc-arr)"/>
+
+      <!-- Stage 6: Assignment Engine -->
+      <circle cx="635" cy="185" r="28" fill="#29260e" stroke="#f7c948" stroke-width="2"/>
+      <text x="635" y="181" text-anchor="middle" fill="#f7c948" font-size="10" font-weight="700" font-family="system-ui">ASSIGN</text>
+      <text x="635" y="195" text-anchor="middle" fill="#f7c948" font-size="10" font-weight="700" font-family="system-ui">ENGINE</text>
+      <text x="635" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Scoring</text>
+      <text x="635" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">ranked list</text>
+      <text x="635" y="145" text-anchor="middle" fill="#f7c948" font-size="11" font-weight="700" font-family="system-ui">⑥</text>
+
+      <!-- Stage 7: Human Review -->
+      <circle cx="745" cy="185" r="28" fill="#f7c948"/>
+      <text x="745" y="181" text-anchor="middle" fill="#1a1000" font-size="10" font-weight="700" font-family="system-ui">HUMAN</text>
+      <text x="745" y="195" text-anchor="middle" fill="#1a1000" font-size="10" font-weight="700" font-family="system-ui">REVIEW</text>
+      <text x="745" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Approve</text>
+      <text x="745" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Override·Dismiss</text>
+      <text x="745" y="145" text-anchor="middle" fill="#f7c948" font-size="11" font-weight="700" font-family="system-ui">⑦</text>
+
+      <!-- Stage 8: Checklist Run -->
+      <circle cx="855" cy="185" r="28" fill="#1e1830" stroke="#7c5cbf" stroke-width="2"/>
+      <text x="855" y="181" text-anchor="middle" fill="#7c5cbf" font-size="10" font-weight="700" font-family="system-ui">CHECKLIST</text>
+      <text x="855" y="195" text-anchor="middle" fill="#7c5cbf" font-size="10" font-weight="700" font-family="system-ui">RUN</text>
+      <text x="855" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">items · statuses</text>
+      <text x="855" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">AI validate</text>
+      <text x="855" y="145" text-anchor="middle" fill="#7c5cbf" font-size="11" font-weight="700" font-family="system-ui">⑧</text>
+
+      <!-- Stage 9: Submit / Done -->
+      <circle cx="960" cy="185" r="28" fill="#7c5cbf"/>
+      <text x="960" y="181" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="system-ui">SUBMIT</text>
+      <text x="960" y="195" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="system-ui">&amp; REPORT</text>
+      <text x="960" y="230" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">Performance</text>
+      <text x="960" y="243" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">analytics</text>
+      <text x="960" y="145" text-anchor="middle" fill="#7c5cbf" font-size="11" font-weight="700" font-family="system-ui">⑨</text>
+      <text x="960" y="130" text-anchor="middle" fill="rgba(124,92,191,0.55)" font-size="9" font-family="system-ui">Done ✓</text>
+
+      <!-- Connecting arrows -->
+      <line x1="113" y1="185" x2="167" y2="185" stroke="#8892b0" stroke-width="1.3" marker-end="url(#lc-arr)"/>
+      <line x1="223" y1="185" x2="277" y2="185" stroke="#8892b0" stroke-width="1.3" marker-end="url(#lc-arr)"/>
+      <line x1="333" y1="185" x2="387" y2="185" stroke="#8892b0" stroke-width="1.3" marker-end="url(#lc-arr)"/>
+      <line x1="443" y1="185" x2="497" y2="185" stroke="#2ec4a3" stroke-width="1.3" marker-end="url(#lc-arr-g)"/>
+      <line x1="553" y1="185" x2="607" y2="185" stroke="#2ec4a3" stroke-width="1.3" marker-end="url(#lc-arr-g)"/>
+      <line x1="663" y1="185" x2="717" y2="185" stroke="#f7c948" stroke-width="1.3" marker-end="url(#lc-arr)"/>
+      <line x1="773" y1="185" x2="827" y2="185" stroke="#f7c948" stroke-width="1.3" marker-end="url(#lc-arr)"/>
+      <line x1="883" y1="185" x2="932" y2="185" stroke="#7c5cbf" stroke-width="1.3" marker-end="url(#lc-arr)"/>
+
+      <!-- STATUS STRIP BOTTOM -->
+      <rect x="50" y="285" width="940" height="55" rx="10" fill="rgba(30,36,54,0.5)" stroke="rgba(42,48,80,0.5)" stroke-width="1"/>
+      <text x="68" y="305" fill="#8892b0" font-size="10.5" font-weight="600" font-family="system-ui">TASK STATES:</text>
+      <rect x="160" y="292" width="72" height="24" rx="5" fill="rgba(79,142,247,0.2)" stroke="rgba(79,142,247,0.5)" stroke-width="1"/>
+      <text x="196" y="308" text-anchor="middle" fill="#4f8ef7" font-size="10" font-weight="600" font-family="system-ui">pending</text>
+      <line x1="232" y1="304" x2="248" y2="304" stroke="#8892b0" stroke-width="1" marker-end="url(#lc-arr)"/>
+      <rect x="252" y="292" width="72" height="24" rx="5" fill="rgba(46,196,163,0.2)" stroke="rgba(46,196,163,0.5)" stroke-width="1"/>
+      <text x="288" y="308" text-anchor="middle" fill="#2ec4a3" font-size="10" font-weight="600" font-family="system-ui">open</text>
+      <line x1="324" y1="304" x2="340" y2="304" stroke="#8892b0" stroke-width="1" marker-end="url(#lc-arr)"/>
+      <rect x="344" y="292" width="88" height="24" rx="5" fill="rgba(247,201,72,0.2)" stroke="rgba(247,201,72,0.5)" stroke-width="1"/>
+      <text x="388" y="308" text-anchor="middle" fill="#f7c948" font-size="10" font-weight="600" font-family="system-ui">in_progress</text>
+      <line x1="432" y1="304" x2="450" y2="304" stroke="#8892b0" stroke-width="1" marker-end="url(#lc-arr)"/>
+      <rect x="454" y="292" width="72" height="24" rx="5" fill="rgba(247,111,79,0.2)" stroke="rgba(247,111,79,0.5)" stroke-width="1"/>
+      <text x="490" y="308" text-anchor="middle" fill="#f76f4f" font-size="10" font-weight="600" font-family="system-ui">blocked</text>
+      <line x1="526" y1="304" x2="544" y2="304" stroke="#8892b0" stroke-width="1" marker-end="url(#lc-arr)"/>
+      <rect x="548" y="292" width="88" height="24" rx="5" fill="rgba(124,92,191,0.2)" stroke="rgba(124,92,191,0.5)" stroke-width="1"/>
+      <text x="592" y="308" text-anchor="middle" fill="#7c5cbf" font-size="10" font-weight="600" font-family="system-ui">checklist_run</text>
+      <line x1="636" y1="304" x2="654" y2="304" stroke="#8892b0" stroke-width="1" marker-end="url(#lc-arr)"/>
+      <rect x="658" y="292" width="80" height="24" rx="5" fill="rgba(46,196,163,0.35)" stroke="rgba(46,196,163,0.7)" stroke-width="1"/>
+      <text x="698" y="308" text-anchor="middle" fill="#2ec4a3" font-size="10" font-weight="700" font-family="system-ui">✓ completed</text>
+
+      <!-- Checklist item states -->
+      <text x="68" y="333" fill="#8892b0" font-size="10.5" font-weight="600" font-family="system-ui">CHECKLIST ITEM STATES:</text>
+      <rect x="220" y="320" width="60" height="22" rx="4" fill="rgba(247,201,72,0.15)" stroke="rgba(247,201,72,0.4)" stroke-width="1"/>
+      <text x="250" y="335" text-anchor="middle" fill="#f7c948" font-size="10" font-family="system-ui">to do</text>
+      <rect x="292" y="320" width="80" height="22" rx="4" fill="rgba(46,196,163,0.15)" stroke="rgba(46,196,163,0.4)" stroke-width="1"/>
+      <text x="332" y="335" text-anchor="middle" fill="#2ec4a3" font-size="10" font-family="system-ui">complete</text>
+      <rect x="384" y="320" width="90" height="22" rx="4" fill="rgba(136,146,176,0.15)" stroke="rgba(136,146,176,0.35)" stroke-width="1"/>
+      <text x="429" y="335" text-anchor="middle" fill="#8892b0" font-size="10" font-family="system-ui">out of scope</text>
+      <rect x="486" y="320" width="70" height="22" rx="4" fill="rgba(247,111,79,0.15)" stroke="rgba(247,111,79,0.35)" stroke-width="1"/>
+      <text x="521" y="335" text-anchor="middle" fill="#f76f4f" font-size="10" font-family="system-ui">deferred</text>
+
+      <text x="520" y="395" text-anchor="middle" fill="rgba(136,146,176,0.55)" font-size="11" font-family="system-ui">AutonOps — Task Execution Lifecycle · From Upload to Performance Analytics</text>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box" style="background:#4f8ef7"></div>Intake &amp; Processing (①–③)</div>
+      <div class="legend-item"><div class="legend-box" style="background:#2ec4a3"></div>Task &amp; Requirements (④–⑤)</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f7c948"></div>Assignment &amp; Review (⑥–⑦)</div>
+      <div class="legend-item"><div class="legend-box" style="background:#7c5cbf"></div>Checklist &amp; Completion (⑧–⑨)</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f76f4f"></div>Error / Blocked State</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DIAGRAM 4 — COORDINATION FLOW (ROLES)
+═══════════════════════════════════════════════ -->
+<div class="diagram-panel" id="panel-3">
+  <div class="diagram-title">Role Coordination Flow</div>
+  <div class="diagram-desc">How five canonical roles — Admin, Manager, Project Coordinator, WIS, and QC — coordinate responsibilities across the AutonOps platform via RBAC-governed access.</div>
+  <div class="diagram-card">
+    <svg viewBox="0 0 1040 580" xmlns="http://www.w3.org/2000/svg" width="100%" style="min-width:700px">
+      <defs>
+        <marker id="cf-arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#8892b0"/>
+        </marker>
+        <marker id="cf-arr-b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(79,142,247,0.7)"/>
+        </marker>
+        <marker id="cf-arr-g" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(46,196,163,0.7)"/>
+        </marker>
+        <marker id="cf-arr-y" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(247,201,72,0.7)"/>
+        </marker>
+        <marker id="cf-arr-p" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(124,92,191,0.7)"/>
+        </marker>
+      </defs>
+
+      <!-- ── CENTRAL PLATFORM HUB ── -->
+      <circle cx="520" cy="270" r="60" fill="rgba(79,142,247,0.08)" stroke="rgba(79,142,247,0.35)" stroke-width="2" stroke-dasharray="6,4"/>
+      <text x="520" y="262" text-anchor="middle" fill="#4f8ef7" font-size="14" font-weight="700" font-family="system-ui">AutonOps</text>
+      <text x="520" y="280" text-anchor="middle" fill="rgba(79,142,247,0.7)" font-size="11" font-family="system-ui">Platform Hub</text>
+      <text x="520" y="295" text-anchor="middle" fill="rgba(136,146,176,0.5)" font-size="9.5" font-family="system-ui">RBAC · PostgreSQL · OpenAI</text>
+
+      <!-- ══ ROLE CARDS ══ -->
+
+      <!-- ADMIN (top center) -->
+      <rect x="420" y="20" width="200" height="105" rx="12" fill="#1a2340" stroke="#4f8ef7" stroke-width="2" filter="url(#shadow2)"/>
+      <rect x="420" y="20" width="200" height="32" rx="12" fill="#4f8ef7"/>
+      <rect x="420" y="40" width="200" height="12" fill="#4f8ef7"/>
+      <text x="520" y="42" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">👑 Admin</text>
+      <text x="435" y="65" fill="#8892b0" font-size="10.5" font-family="system-ui">• Create &amp; manage users</text>
+      <text x="435" y="80" fill="#8892b0" font-size="10.5" font-family="system-ui">• Configure RBAC matrix</text>
+      <text x="435" y="95" fill="#8892b0" font-size="10.5" font-family="system-ui">• Task duration benchmarks</text>
+      <text x="435" y="110" fill="#8892b0" font-size="10.5" font-family="system-ui">• Innovation / checklist admin</text>
+
+      <!-- MANAGER (left top) -->
+      <rect x="60" y="60" width="200" height="115" rx="12" fill="#1a2d28" stroke="#2ec4a3" stroke-width="2"/>
+      <rect x="60" y="60" width="200" height="32" rx="12" fill="#2ec4a3"/>
+      <rect x="60" y="80" width="200" height="12" fill="#2ec4a3"/>
+      <text x="160" y="82" text-anchor="middle" fill="#0f1a17" font-size="13" font-weight="700" font-family="system-ui">📊 Manager</text>
+      <text x="75" y="105" fill="#8892b0" font-size="10.5" font-family="system-ui">• Global dashboard view</text>
+      <text x="75" y="120" fill="#8892b0" font-size="10.5" font-family="system-ui">• Approve/reject assignments</text>
+      <text x="75" y="135" fill="#8892b0" font-size="10.5" font-family="system-ui">• Patch settings (RBAC)</text>
+      <text x="75" y="150" fill="#8892b0" font-size="10.5" font-family="system-ui">• View all performance</text>
+      <text x="75" y="165" fill="#8892b0" font-size="10.5" font-family="system-ui">• Agent evaluation access</text>
+
+      <!-- PROJECT COORDINATOR (right top) -->
+      <rect x="780" y="60" width="210" height="115" rx="12" fill="#29260e" stroke="#f7c948" stroke-width="2"/>
+      <rect x="780" y="60" width="210" height="32" rx="12" fill="#f7c948"/>
+      <rect x="780" y="80" width="210" height="12" fill="#f7c948"/>
+      <text x="885" y="82" text-anchor="middle" fill="#1a1000" font-size="13" font-weight="700" font-family="system-ui">📋 Project Coordinator</text>
+      <text x="795" y="105" fill="#8892b0" font-size="10.5" font-family="system-ui">• Manage task list &amp; scope</text>
+      <text x="795" y="120" fill="#8892b0" font-size="10.5" font-family="system-ui">• Run assignment engine</text>
+      <text x="795" y="135" fill="#8892b0" font-size="10.5" font-family="system-ui">• Maintain rules library</text>
+      <text x="795" y="150" fill="#8892b0" font-size="10.5" font-family="system-ui">• Coordinate OOS/defer</text>
+      <text x="795" y="165" fill="#8892b0" font-size="10.5" font-family="system-ui">• Publish checklist templates</text>
+
+      <!-- WIS (left bottom) -->
+      <rect x="60" y="380" width="200" height="115" rx="12" fill="#1e1830" stroke="#7c5cbf" stroke-width="2"/>
+      <rect x="60" y="380" width="200" height="32" rx="12" fill="#7c5cbf"/>
+      <rect x="60" y="400" width="200" height="12" fill="#7c5cbf"/>
+      <text x="160" y="402" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">🛠 WIS (Practitioner)</text>
+      <text x="75" y="425" fill="#8892b0" font-size="10.5" font-family="system-ui">• View assigned tasks</text>
+      <text x="75" y="440" fill="#8892b0" font-size="10.5" font-family="system-ui">• Run &amp; submit checklists</text>
+      <text x="75" y="455" fill="#8892b0" font-size="10.5" font-family="system-ui">• Upload scope docs</text>
+      <text x="75" y="470" fill="#8892b0" font-size="10.5" font-family="system-ui">• Personal Goals / OKRs</text>
+      <text x="75" y="485" fill="#8892b0" font-size="10.5" font-family="system-ui">• Submit innovation ideas</text>
+
+      <!-- QC (right bottom) -->
+      <rect x="780" y="380" width="210" height="115" rx="12" fill="#231816" stroke="#f76f4f" stroke-width="2"/>
+      <rect x="780" y="380" width="210" height="32" rx="12" fill="#f76f4f"/>
+      <rect x="780" y="400" width="210" height="12" fill="#f76f4f"/>
+      <text x="885" y="402" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">🔍 QC (Quality Control)</text>
+      <text x="795" y="425" fill="#8892b0" font-size="10.5" font-family="system-ui">• Review checklists &amp; items</text>
+      <text x="795" y="440" fill="#8892b0" font-size="10.5" font-family="system-ui">• Validate AI suggestions</text>
+      <text x="795" y="455" fill="#8892b0" font-size="10.5" font-family="system-ui">• Flag scope creep</text>
+      <text x="795" y="470" fill="#8892b0" font-size="10.5" font-family="system-ui">• Check defects &amp; blockers</text>
+      <text x="795" y="485" fill="#8892b0" font-size="10.5" font-family="system-ui">• Performance analytics view</text>
+
+      <!-- ── ARROWS ── -->
+      <!-- Admin → Hub -->
+      <line x1="520" y1="125" x2="520" y2="210" stroke="rgba(79,142,247,0.6)" stroke-width="1.8" marker-end="url(#cf-arr-b)"/>
+      <!-- Manager → Hub -->
+      <line x1="260" y1="118" x2="463" y2="240" stroke="rgba(46,196,163,0.55)" stroke-width="1.5" marker-end="url(#cf-arr-g)"/>
+      <!-- Coordinator → Hub -->
+      <line x1="780" y1="118" x2="577" y2="240" stroke="rgba(247,201,72,0.55)" stroke-width="1.5" marker-end="url(#cf-arr-y)"/>
+      <!-- WIS → Hub -->
+      <line x1="260" y1="435" x2="463" y2="300" stroke="rgba(124,92,191,0.55)" stroke-width="1.5" marker-end="url(#cf-arr-p)"/>
+      <!-- QC → Hub -->
+      <line x1="780" y1="435" x2="577" y2="300" stroke="rgba(247,111,79,0.55)" stroke-width="1.5" marker-end="url(#cf-arr)"/>
+
+      <!-- ── INTERACTION LABELS ── -->
+      <!-- Admin → Manager (configure perms) -->
+      <path d="M 310 75 Q 260 45 260 80" fill="none" stroke="rgba(79,142,247,0.3)" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="270" y="44" fill="rgba(79,142,247,0.55)" font-size="10" font-family="system-ui" text-anchor="middle">Grants</text>
+      <text x="270" y="56" fill="rgba(79,142,247,0.55)" font-size="10" font-family="system-ui" text-anchor="middle">Permissions</text>
+
+      <!-- Coordinator ↔ WIS (assigns tasks) -->
+      <path d="M 260 380 Q 380 340 780 380" fill="none" stroke="rgba(247,201,72,0.3)" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="520" y="360" fill="rgba(247,201,72,0.55)" font-size="10" font-family="system-ui" text-anchor="middle">Task Assignments flow down</text>
+
+      <!-- WIS ↔ QC (checklist collaboration) -->
+      <path d="M 260 440 Q 520 510 780 440" fill="none" stroke="rgba(124,92,191,0.35)" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="520" y="525" fill="rgba(124,92,191,0.55)" font-size="10" font-family="system-ui" text-anchor="middle">Checklist runs reviewed by QC</text>
+
+      <!-- Manager ↔ Coordinator (oversight) -->
+      <path d="M 260 118 Q 520 30 780 118" fill="none" stroke="rgba(46,196,163,0.3)" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="520" y="30" fill="rgba(46,196,163,0.55)" font-size="10" font-family="system-ui" text-anchor="middle">Manager oversees Coordinators</text>
+
+      <!-- RBAC indicator centre -->
+      <text x="520" y="350" text-anchor="middle" fill="rgba(136,146,176,0.45)" font-size="10" font-family="system-ui">All access enforced via RBAC matrix (rolePermissions)</text>
+
+      <!-- Shared features -->
+      <rect x="380" y="500" width="280" height="58" rx="10" fill="rgba(30,36,54,0.6)" stroke="rgba(42,48,80,0.6)" stroke-width="1"/>
+      <text x="520" y="520" text-anchor="middle" fill="#8892b0" font-size="11" font-weight="600" font-family="system-ui">Shared by all authenticated roles</text>
+      <text x="520" y="536" text-anchor="middle" fill="rgba(136,146,176,0.65)" font-size="10" font-family="system-ui">Dashboard (scoped) · Goals · Innovation · Password change</text>
+      <text x="520" y="550" text-anchor="middle" fill="rgba(136,146,176,0.5)" font-size="10" font-family="system-ui">Dismissible notices · Role-filtered navigation sidebar</text>
+
+      <defs>
+        <filter id="shadow2" x="-5%" y="-5%" width="115%" height="130%">
+          <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.35"/>
+        </filter>
+      </defs>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-box" style="background:#4f8ef7"></div>Admin — System Configuration &amp; User Governance</div>
+      <div class="legend-item"><div class="legend-box" style="background:#2ec4a3"></div>Manager — Oversight &amp; Performance</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f7c948"></div>Project Coordinator — Ops &amp; Rules</div>
+      <div class="legend-item"><div class="legend-box" style="background:#7c5cbf"></div>WIS — Task Execution &amp; Checklists</div>
+      <div class="legend-item"><div class="legend-box" style="background:#f76f4f"></div>QC — Quality &amp; Validation</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<footer>
+  Built by <strong style="color:var(--text)">Kandaswamy Subramaniyam</strong> &nbsp;·&nbsp;
+  <a href="mailto:kandaswamysubramaniyam@gmail.com">kandaswamysubramaniyam@gmail.com</a> &nbsp;·&nbsp;
+  AutonOps — Delivery Operations Platform &nbsp;·&nbsp; Private / Proprietary
+</footer>
+
+<script>
+  function switchTab(idx) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    document.querySelectorAll('.diagram-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  }
+</script>
+</body>
+</html>

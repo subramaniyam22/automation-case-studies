@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAISY MVP — Role Coordination Flow</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #08090f; font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; }
+  .canvas { width: 1000px; margin: 0 auto; }
+  .title-block { text-align: center; margin-bottom: 22px; }
+  .title-block h1 { font-size: 20px; font-weight: 700; color: #e2e8f0; }
+  .title-block p { font-size: 11px; color: #64748b; margin-top: 4px; }
+  .rbac-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .role-card { border-radius: 9px; padding: 11px 12px; border: 1px solid; }
+  .role-icon { font-size: 24px; margin-bottom: 5px; }
+  .role-name { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+  .role-stage { font-size: 9px; font-weight: 700; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+  .role-perms { list-style: none; }
+  .role-perms li { font-size: 9px; line-height: 1.7; display: flex; gap: 4px; }
+  .role-perms li::before { content: '›'; opacity: 0.5; flex-shrink: 0; }
+  .role-badge { display: inline-block; font-size: 8px; font-weight: 600; padding: 1px 5px; border-radius: 99px; margin-top: 6px; margin-right: 3px; }
+  .r-sales { background: #1c1507; border-color: #78350f; color: #fde68a; } .r-sales .role-name { color: #fbbf24; }
+  .r-cons { background: #0c1f10; border-color: #166534; color: #bbf7d0; } .r-cons .role-name { color: #4ade80; }
+  .r-pc { background: #0f1a30; border-color: #1e40af; color: #bfdbfe; } .r-pc .role-name { color: #60a5fa; }
+  .r-builder { background: #1a0a30; border-color: #5b21b6; color: #ddd6fe; } .r-builder .role-name { color: #a78bfa; }
+  .r-tester { background: #0f1e1e; border-color: #0e7490; color: #a5f3fc; } .r-tester .role-name { color: #22d3ee; }
+  .r-manager { background: #1a0e20; border-color: #86198f; color: #f5d0fe; } .r-manager .role-name { color: #e879f9; }
+  .r-admin { background: #0a0010; border-color: #4338ca; color: #c7d2fe; } .r-admin .role-name { color: #818cf8; }
+  .r-client { background: #1a1000; border-color: #854d0e; color: #fef3c7; } .r-client .role-name { color: #fcd34d; }
+  .t-amber { background:#92400e; color:#fde68a; } .t-green { background:#166534; color:#bbf7d0; } .t-blue { background:#1e40af; color:#bfdbfe; } .t-purple { background:#5b21b6; color:#ddd6fe; } .t-cyan { background:#0e7490; color:#a5f3fc; } .t-pink { background:#86198f; color:#f5d0fe; } .t-indigo { background:#4338ca; color:#c7d2fe; } .t-yellow { background:#854d0e; color:#fef3c7; }
+  .coord-flow { display: flex; gap: 0; align-items: flex-start; margin-bottom: 14px; overflow: hidden; border-radius: 10px; border: 1px solid #1e293b; }
+  .cf-col { flex: 1; border-right: 1px solid #1e293b; padding: 11px 12px; }
+  .cf-col:last-child { border-right: none; }
+  .cf-header { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 7px; border-radius: 5px; display: inline-block; margin-bottom: 8px; }
+  .cf-step { font-size: 9.5px; line-height: 1.7; color: #94a3b8; padding: 3px 0; border-bottom: 1px solid #1e293b; }
+  .cf-step:last-child { border-bottom: none; }
+  .cf-step strong { font-weight: 600; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px; margin-bottom: 14px; }
+  .info-card { border-radius: 8px; padding: 11px 13px; border: 1px solid; }
+  .info-card h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
+  .info-card ul { list-style: none; }
+  .info-card li { font-size: 9px; line-height: 1.75; display: flex; gap: 5px; }
+  .info-card li::before { content: '›'; opacity: 0.5; flex-shrink: 0; }
+  .ic-indigo { background: #0d0e2a; border-color: #3730a3; color: #c7d2fe; } .ic-indigo h3 { color: #818cf8; }
+  .ic-teal { background: #022c22; border-color: #065f46; color: #a7f3d0; } .ic-teal h3 { color: #34d399; }
+  .ic-rose { background: #1a0015; border-color: #881337; color: #fecdd3; } .ic-rose h3 { color: #fb7185; }
+  .notif-row { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+  .notif-card { flex: 1; min-width: 140px; border-radius: 7px; padding: 9px 11px; border: 1px solid; }
+  .notif-card h4 { font-size: 9.5px; font-weight: 700; margin-bottom: 4px; }
+  .notif-card p { font-size: 9px; line-height: 1.6; }
+  .nc-blue { background: #0f1a30; border-color: #1e40af; color: #bfdbfe; } .nc-blue h4 { color: #60a5fa; }
+  .nc-green { background: #0c1f10; border-color: #166534; color: #bbf7d0; } .nc-green h4 { color: #4ade80; }
+  .nc-purple { background: #1a0a30; border-color: #5b21b6; color: #ddd6fe; } .nc-purple h4 { color: #a78bfa; }
+  .nc-cyan { background: #0f1e1e; border-color: #0e7490; color: #a5f3fc; } .nc-cyan h4 { color: #22d3ee; }
+  .nc-amber { background: #1c1507; border-color: #78350f; color: #fde68a; } .nc-amber h4 { color: #fbbf24; }
+  .sec-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; padding: 5px 10px; border-radius: 6px; margin-bottom: 10px; display: inline-block; }
+  .sh-purple { background: #1a0a30; color: #a78bfa; border: 1px solid #4c1d95; }
+  .sh-blue { background: #0f1a30; color: #60a5fa; border: 1px solid #1e40af; }
+  .sh-green { background: #0c1f10; color: #4ade80; border: 1px solid #166534; }
+  .sh-teal { background: #022c22; color: #34d399; border: 1px solid #065f46; }
+  .watermark { text-align: center; margin-top: 16px; font-size: 10px; color: #1e293b; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="title-block">
+    <h1>DAISY — Role Coordination Flow</h1>
+    <p>7 internal roles + Client portal &nbsp;·&nbsp; RBAC enforced on every API endpoint &nbsp;·&nbsp; Event-driven notifications &nbsp;·&nbsp; Audit trail for all actions</p>
+  </div>
+
+  <div class="rbac-grid">
+    <div class="role-card r-sales"><div class="role-icon">💼</div><div class="role-name">Sales</div><div class="role-stage">Stage 1: Sales Handover</div><ul class="role-perms"><li>Create &amp; draft projects</li><li>Enter client name, email, company</li><li>Save drafts, return anytime</li><li>Trigger handover to delivery</li></ul><span class="role-badge t-amber">POST /projects</span></div>
+    <div class="role-card r-cons"><div class="role-icon">🧑‍💼</div><div class="role-name">Consultant</div><div class="role-stage">Stage 2: Onboarding</div><ul class="role-perms"><li>Update onboarding data</li><li>Manage client requirements</li><li>Client Management (assigned)</li><li>Send reminder emails</li></ul><span class="role-badge t-green">Onboarding API</span></div>
+    <div class="role-card r-pc"><div class="role-icon">📋</div><div class="role-name">PC</div><div class="role-stage">Stage 3: Assignment</div><ul class="role-perms"><li>Create &amp; assign tasks</li><li>Resource allocation</li><li>Publish assignment stage</li><li>Client Management (assigned)</li></ul><span class="role-badge t-blue">Task APIs</span></div>
+    <div class="role-card r-builder"><div class="role-icon">🏗️</div><div class="role-name">Builder</div><div class="role-stage">Stage 4: Build</div><ul class="role-perms"><li>Start/progress/complete build</li><li>Upload build artifacts</li><li>View build checklist</li><li>Build stage access only</li></ul><span class="role-badge t-purple">Build status API</span></div>
+    <div class="role-card r-tester"><div class="role-icon">🧪</div><div class="role-name">Tester</div><div class="role-stage">Stage 5: Test</div><ul class="role-perms"><li>Start/progress/complete test</li><li>Upload QA reports</li><li>Create defect drafts</li><li>Test stage access only</li></ul><span class="role-badge t-cyan">Test + Defect APIs</span></div>
+    <div class="role-card r-manager"><div class="role-icon">👔</div><div class="role-name">Manager</div><div class="role-stage">Stages 1–7 Oversight</div><ul class="role-perms"><li>All workflow + config access</li><li>Template publish/recommend</li><li>Client Management (all)</li><li>HITL approval gates</li></ul><span class="role-badge t-pink">Full API (=Admin)</span></div>
+    <div class="role-card r-admin"><div class="role-icon">⚙️</div><div class="role-name">Admin</div><div class="role-stage">System Configuration</div><ul class="role-perms"><li>Full system access</li><li>SLA, HITL, thresholds config</li><li>Template registry management</li><li>Debug endpoints (prod-gated)</li></ul><span class="role-badge t-indigo">All endpoints</span></div>
+    <div class="role-card r-client"><div class="role-icon">🌐</div><div class="role-name">Client</div><div class="role-stage">Confirmation Portal</div><ul class="role-perms"><li>View pending confirmations</li><li>Approve / reject fallback</li><li>No login: client_token auth</li><li>Receives reminder emails</li></ul><span class="role-badge t-yellow">Portal endpoints</span></div>
+  </div>
+
+  <div class="sec-head sh-blue" style="margin-bottom:10px;">⟳ Stage-by-Stage Handoff Coordination</div>
+  <div class="coord-flow">
+    <div class="cf-col" style="background:#0f0d08;"><span class="cf-header t-amber">💼 Sales</span><div class="cf-step"><strong>Creates project</strong> with client details</div><div class="cf-step">Saves draft, edits fields</div><div class="cf-step"><strong>Triggers handover</strong> → auto-advance to Onboarding</div><div class="cf-step">Onboarding email sent to client (Resend)</div></div>
+    <div class="cf-col" style="background:#080e08;"><span class="cf-header t-green">🧑‍💼 Consultant</span><div class="cf-step">Receives project in Onboarding stage</div><div class="cf-step"><strong>Gathers client data</strong>, requirements, theme</div><div class="cf-step">Sends reminders (auto or manual)</div><div class="cf-step"><strong>Submits onboarding</strong> → Assignment enqueued</div></div>
+    <div class="cf-col" style="background:#080c18;"><span class="cf-header t-blue">📋 PC</span><div class="cf-step">Receives project in Assignment</div><div class="cf-step"><strong>Creates tasks</strong>, allocates resources</div><div class="cf-step">Sets deadlines and owners</div><div class="cf-step"><strong>Publishes assignment</strong> → Build enqueued</div></div>
+    <div class="cf-col" style="background:#0d0a18;"><span class="cf-header t-purple">🏗️ Builder</span><div class="cf-step">Worker pulls template from S3/Git</div><div class="cf-step">Builder updates build status</div><div class="cf-step">Uploads build artifacts</div><div class="cf-step"><strong>Completes build</strong> → Test enqueued (or HITL)</div></div>
+    <div class="cf-col" style="background:#080e10;"><span class="cf-header t-cyan">🧪 Tester</span><div class="cf-step">QA runner: Lighthouse + Axe auto</div><div class="cf-step">Tester <strong>uploads QA reports</strong></div><div class="cf-step">Creates defect drafts if issues found</div><div class="cf-step"><strong>Pass → Complete</strong> or Defect Validation</div></div>
+    <div class="cf-col" style="background:#100808;"><span class="cf-header" style="background:#991b1b;color:#fecaca;">🐛 Admin/AI</span><div class="cf-step">AI agent <strong>validates defects</strong></div><div class="cf-step">Valid → routes back to Build</div><div class="cf-step">Invalid → routes back to Test</div><div class="cf-step">Cycle cap 5 → <strong>Admin reviews</strong></div></div>
+    <div class="cf-col" style="background:#080e08;"><span class="cf-header t-green">✅ Complete</span><div class="cf-step">AI generates project summary</div><div class="cf-step">Delivery URL (CloudFront) generated</div><div class="cf-step"><strong>Final email sent</strong> to client (Resend)</div><div class="cf-step">Sentiment link + proof pack archived</div></div>
+  </div>
+
+  <div class="three-col">
+    <div class="info-card ic-indigo"><h3>🔐 RBAC Enforcement</h3><ul><li>JWT Bearer token on every request</li><li>Role decoded from JWT payload</li><li>Endpoint-level permission checks (rbac.py)</li><li>Consultant/PC: own projects only</li><li>Admin/Manager: all projects</li><li>Builder: build stage endpoints only</li><li>Tester: test stage endpoints only</li><li>Sales: sales stage + project creation</li><li>Preview auth: Bearer or ?access_token=</li><li>6-hour token expiry (optional key rotation)</li></ul></div>
+    <div class="info-card ic-teal"><h3>📊 Admin/Manager Control</h3><ul><li>System Config: SLA, thresholds, HITL</li><li>Decision Policies: reminder cadence, caps</li><li>Global Checklists: Build / QA / Defect</li><li>Preview Strategy: Static vs. Live</li><li>Operations Dashboard: job queue health</li><li>Quality Dashboard: sentiment tracking</li><li>Template Registry: publish/recommend</li><li>User Management: create/list users</li><li>Audit Logs: full action trail</li><li>Resume Autopilot / Enqueue (recovery)</li></ul></div>
+    <div class="info-card ic-rose"><h3>🌐 Client Coordination</h3><ul><li>Sales enters client contact at creation</li><li>Onboarding email auto-sent on handover</li><li>Reminder emails: cadence from policies</li><li>Max 10 reminders → project HOLD</li><li>ConfirmationRequest blocks pipeline</li><li>Client portal: client_token (no login)</li><li>Approve / Reject with comment</li><li>Daily reminder email (max 10)</li><li>Completion: delivery URL + sentiment</li><li>Edit contacts: Admin/Consultant/PC</li></ul></div>
+  </div>
+
+  <div class="sec-head sh-green" style="margin-bottom:10px;">🔔 Notification, Webhook &amp; Observability Flow</div>
+  <div class="notif-row">
+    <div class="notif-card nc-blue"><h4>WebSocket Notifications</h4><p>JWT-secured WS connection at /ws/notifications/{userId}. Real-time stage updates, job status, and HITL approval alerts to the frontend.</p></div>
+    <div class="notif-card nc-green"><h4>Email (Resend)</h4><p>Onboarding email on Sales handover. Completion email with CloudFront URL. Client reminders (max 10, cadence configurable). Svix signature verification on webhook.</p></div>
+    <div class="notif-card nc-purple"><h4>Chat Log Webhooks</h4><p>AI Consultant chat logs delivered to external systems via CHAT_LOG_WEBHOOK_URL. X-Webhook-Secret header validated. Fallback to /api/webhooks/chat-logs.</p></div>
+    <div class="notif-card nc-cyan"><h4>Audit Logs</h4><p>Every stage transition, reminder, HOLD/NEEDS_REVIEW, job enqueue/fail logged with actor, request_id, timestamp. Stage history: From, To, Date/Time, Triggered by (User/Pipeline).</p></div>
+    <div class="notif-card nc-amber"><h4>Structured Logging</h4><p>S3 upload keys, CloudFront URLs, and confirmation decisions all logged for observability. correlation_id per blueprint run. Worker heartbeat health: GET /system/health.</p></div>
+  </div>
+
+  <div class="watermark" style="margin-top:16px;">DAISY MVP · Delivery Automation Intelligence System Yield · Role Coordination Flow</div>
+</div>
+</body>
+</html>

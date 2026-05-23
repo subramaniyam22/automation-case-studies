@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAISY MVP — 7-Stage Process Flow</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0d14; font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; }
+  .canvas { width: 1000px; margin: 0 auto; }
+  .title-block { text-align: center; margin-bottom: 24px; }
+  .title-block h1 { font-size: 20px; font-weight: 700; color: #e2e8f0; }
+  .title-block p { font-size: 11px; color: #64748b; margin-top: 4px; }
+  .pipeline { display: flex; align-items: flex-start; gap: 0; margin-bottom: 20px; }
+  .stage-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .stage { border-radius: 10px; padding: 12px 8px; width: 100%; border: 2px solid; text-align: center; }
+  .stage-num { font-size: 9px; font-weight: 700; opacity: 0.6; margin-bottom: 2px; letter-spacing: 1px; }
+  .stage-icon { font-size: 22px; margin-bottom: 4px; }
+  .stage-name { font-size: 11px; font-weight: 700; line-height: 1.3; }
+  .stage-sub { font-size: 9px; margin-top: 4px; opacity: 0.75; line-height: 1.4; }
+  .stage-tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
+  .stag { font-size: 8px; font-weight: 600; padding: 1px 5px; border-radius: 99px; }
+  .conn { display: flex; align-items: center; padding-top: 38px; color: #334155; font-size: 18px; flex-shrink: 0; width: 18px; }
+  .s1 { background: #1c1507; border-color: #92400e; color: #fde68a; } .s1 .stage-name { color: #fbbf24; }
+  .s2 { background: #0c1f10; border-color: #166534; color: #bbf7d0; } .s2 .stage-name { color: #4ade80; }
+  .s3 { background: #0f1a30; border-color: #1e40af; color: #bfdbfe; } .s3 .stage-name { color: #60a5fa; }
+  .s4 { background: #1a0a30; border-color: #5b21b6; color: #ddd6fe; } .s4 .stage-name { color: #a78bfa; }
+  .s5 { background: #0f1e1e; border-color: #0e7490; color: #a5f3fc; } .s5 .stage-name { color: #22d3ee; }
+  .s6 { background: #200a0a; border-color: #991b1b; color: #fecaca; } .s6 .stage-name { color: #f87171; }
+  .s7 { background: #0e1a0e; border-color: #15803d; color: #bbf7d0; } .s7 .stage-name { color: #22c55e; }
+  .t-amber { background:#92400e; color:#fde68a; } .t-green2 { background:#166534; color:#bbf7d0; } .t-blue { background:#1e40af; color:#bfdbfe; } .t-purple { background:#5b21b6; color:#ddd6fe; } .t-cyan { background:#0e7490; color:#a5f3fc; } .t-red { background:#991b1b; color:#fecaca; } .t-green { background:#15803d; color:#bbf7d0; }
+  .details-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .detail-card { border-radius: 8px; padding: 11px 13px; flex: 1; border: 1px solid; }
+  .detail-card h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
+  .detail-card ul { list-style: none; }
+  .detail-card li { font-size: 9.5px; line-height: 1.7; display: flex; gap: 5px; }
+  .detail-card li::before { content: '›'; opacity: 0.5; flex-shrink: 0; }
+  .d-amber { background:#1c1507; border-color:#78350f; color:#fde68a; } .d-amber h3 { color:#fbbf24; }
+  .d-green { background:#0c1f10; border-color:#14532d; color:#bbf7d0; } .d-green h3 { color:#4ade80; }
+  .d-blue { background:#0f1a30; border-color:#1e3a8a; color:#bfdbfe; } .d-blue h3 { color:#60a5fa; }
+  .d-purple { background:#1a0a30; border-color:#4c1d95; color:#ddd6fe; } .d-purple h3 { color:#a78bfa; }
+  .d-red { background:#200a0a; border-color:#7f1d1d; color:#fecaca; } .d-red h3 { color:#f87171; }
+  .d-teal { background:#022c22; border-color:#065f46; color:#a7f3d0; } .d-teal h3 { color:#34d399; }
+  .transitions { border-radius: 10px; padding: 13px 15px; background: #0f1117; border: 1px solid #1e293b; margin-bottom: 12px; }
+  .transitions h3 { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .t-flow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .t-path { display: flex; align-items: center; gap: 4px; background: #1e293b; border-radius: 6px; padding: 5px 10px; }
+  .t-path span { font-size: 9.5px; color: #94a3b8; }
+  .t-path .arr { color: #475569; }
+  .t-path .cond { font-size: 8.5px; color: #64748b; background: #0f172a; border-radius: 4px; padding: 1px 5px; }
+  .t-path .node { font-size: 9.5px; font-weight: 600; }
+  .nd-amber { color: #fbbf24; } .nd-green { color: #4ade80; } .nd-blue { color: #60a5fa; } .nd-purple { color: #a78bfa; } .nd-cyan { color: #22d3ee; } .nd-red { color: #f87171; }
+  .stops { display: flex; gap: 10px; margin-bottom: 12px; }
+  .stop-card { flex: 1; border-radius: 8px; padding: 11px 13px; border: 1px solid; }
+  .stop-card h3 { font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+  .stop-card p { font-size: 9.5px; line-height: 1.6; }
+  .sc-hold { background:#1a1000; border-color:#78350f; color:#fed7aa; } .sc-hold h3 { color:#fb923c; }
+  .sc-nr { background:#1a0a0a; border-color:#7f1d1d; color:#fecaca; } .sc-nr h3 { color:#f87171; }
+  .sc-hitl { background:#0a0a1a; border-color:#3730a3; color:#c7d2fe; } .sc-hitl h3 { color:#818cf8; }
+  .sc-rec { background:#0a1a0a; border-color:#166534; color:#bbf7d0; } .sc-rec h3 { color:#4ade80; }
+  .footer-note { text-align: center; font-size: 9.5px; color: #475569; margin-top: 10px; padding: 8px; background: #0f1117; border-radius: 6px; border: 1px solid #1e293b; }
+  .watermark { text-align: center; margin-top: 16px; font-size: 10px; color: #1e293b; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="title-block">
+    <h1>DAISY — 7-Stage Delivery Pipeline Process Flow</h1>
+    <p>Autonomous zero-HITL pipeline with LangGraph orchestration &nbsp;·&nbsp; Sweeper every ~90s &nbsp;·&nbsp; Event-driven stage transitions</p>
+  </div>
+
+  <div class="pipeline">
+    <div class="stage-wrap"><div class="stage s1"><div class="stage-num">STAGE 01</div><div class="stage-icon">🤝</div><div class="stage-name">Sales Handover</div><div class="stage-sub">Draft · Publish<br>Client intake</div><div class="stage-tags"><span class="stag t-amber">Sales role</span><span class="stag t-amber">Draft save</span></div></div></div>
+    <div class="conn">→</div>
+    <div class="stage-wrap"><div class="stage s2"><div class="stage-num">STAGE 02</div><div class="stage-icon">📋</div><div class="stage-name">Onboarding</div><div class="stage-sub">Client data · Docs<br>Auto-reminder</div><div class="stage-tags"><span class="stag t-green2">Consultant</span><span class="stag t-green2">Email</span></div></div></div>
+    <div class="conn">→</div>
+    <div class="stage-wrap"><div class="stage s3"><div class="stage-num">STAGE 03</div><div class="stage-icon">📌</div><div class="stage-name">Assignment</div><div class="stage-sub">Tasks · Resources<br>Allocation</div><div class="stage-tags"><span class="stag t-blue">PC role</span><span class="stag t-blue">Auto</span></div></div></div>
+    <div class="conn">→</div>
+    <div class="stage-wrap"><div class="stage s4"><div class="stage-num">STAGE 04</div><div class="stage-icon">🏗️</div><div class="stage-name">Build</div><div class="stage-sub">Dev work · Template<br>HITL gate optional</div><div class="stage-tags"><span class="stag t-purple">Builder</span><span class="stag t-purple">HITL</span></div></div></div>
+    <div class="conn">→</div>
+    <div class="stage-wrap"><div class="stage s5"><div class="stage-num">STAGE 05</div><div class="stage-icon">🧪</div><div class="stage-name">Test</div><div class="stage-sub">QA · Reports<br>Defect creation</div><div class="stage-tags"><span class="stag t-cyan">Tester</span><span class="stag t-cyan">Axe</span></div></div></div>
+    <div class="conn">→</div>
+    <div class="stage-wrap"><div class="stage s6"><div class="stage-num">STAGE 06</div><div class="stage-icon">🐛</div><div class="stage-name">Defect Validation</div><div class="stage-sub">Analysis · Rework<br>Cycle cap: 5</div><div class="stage-tags"><span class="stag t-red">Admin</span><span class="stag t-red">AI agent</span></div></div></div>
+    <div class="conn">→</div>
+    <div class="stage-wrap"><div class="stage s7"><div class="stage-num">STAGE 07</div><div class="stage-icon">✅</div><div class="stage-name">Complete</div><div class="stage-sub">Summary · Email<br>Delivery URL</div><div class="stage-tags"><span class="stag t-green">Auto</span><span class="stag t-green">CloudFront</span></div></div></div>
+  </div>
+
+  <div class="details-row">
+    <div class="detail-card d-amber"><h3>🤝 Sales Handover</h3><ul><li>Create project (Sales/Admin)</li><li>Save drafts, edit anytime</li><li>Fill: name, client, scope</li><li>Handover → triggers Onboarding</li><li>Auto-advance when fields complete</li></ul></div>
+    <div class="detail-card d-green"><h3>📋 Onboarding</h3><ul><li>Client data, requirements, theme</li><li>Auto-reminder toggle persists</li><li>Reminder cadence from Decision Policies</li><li>Max 10 reminders → HOLD state</li><li>Submit → ASSIGNMENT enqueued</li></ul></div>
+    <div class="detail-card d-blue"><h3>📌 Assignment</h3><ul><li>PC creates &amp; publishes tasks</li><li>Resource allocation per stage</li><li>AI-suggested task breakdown</li><li>Publish → BUILD enqueued</li><li>Multi-location support</li></ul></div>
+    <div class="detail-card d-purple"><h3>🏗️ Build</h3><ul><li>Template clone from S3 / Git</li><li>Inject client data JSON</li><li>Build → requires dist/index.html</li><li>Upload preview to S3 (30d TTL)</li><li>HITL approval gate optional</li></ul></div>
+    <div class="detail-card d-teal"><h3>🧪 Test</h3><ul><li>QA runner: Lighthouse + Axe</li><li>Tester uploads reports</li><li>Creates defect drafts</li><li>Pass → Complete or Defect Validation</li><li>WCAG 2 AA thresholds enforced</li></ul></div>
+    <div class="detail-card d-red"><h3>🐛 Defect Validation</h3><ul><li>AI agent analyses defects</li><li>Valid → back to Build (rework)</li><li>Invalid → back to Test (retest)</li><li>Cycle cap 5 → NEEDS_REVIEW</li><li>Admin/Manager resolves</li></ul></div>
+  </div>
+
+  <div class="transitions">
+    <h3>⟳ Workflow Transition Paths</h3>
+    <div class="t-flow">
+      <div class="t-path"><span class="node nd-amber">Sales</span><span class="arr">→</span><span class="cond">handover + fields complete</span><span class="arr">→</span><span class="node nd-green">Onboarding</span></div>
+      <div class="t-path"><span class="node nd-green">Onboarding</span><span class="arr">→</span><span class="cond">submit approved</span><span class="arr">→</span><span class="node nd-blue">Assignment</span></div>
+      <div class="t-path"><span class="node nd-blue">Assignment</span><span class="arr">→</span><span class="cond">published</span><span class="arr">→</span><span class="node nd-purple">Build</span></div>
+      <div class="t-path"><span class="node nd-purple">Build</span><span class="arr">→</span><span class="cond">success + HITL approved</span><span class="arr">→</span><span class="node nd-cyan">Test</span></div>
+      <div class="t-path"><span class="node nd-cyan">Test</span><span class="arr">→</span><span class="cond">defects found</span><span class="arr">→</span><span class="node nd-red">Defect Validation</span></div>
+      <div class="t-path"><span class="node nd-cyan">Test</span><span class="arr">→</span><span class="cond">no defects, pass</span><span class="arr">→</span><span class="node nd-green">Complete</span></div>
+      <div class="t-path"><span class="node nd-red">Defect Validation</span><span class="arr">→</span><span class="cond">valid defects</span><span class="arr">→</span><span class="node nd-purple">Build (rework)</span></div>
+      <div class="t-path"><span class="node nd-red">Defect Validation</span><span class="arr">→</span><span class="cond">invalid / retest</span><span class="arr">→</span><span class="node nd-cyan">Test</span></div>
+      <div class="t-path"><span class="node nd-red">Defect Validation</span><span class="arr">→</span><span class="cond">all resolved</span><span class="arr">→</span><span class="node nd-green">Complete ✓</span></div>
+      <div class="t-path"><span class="node" style="color:#fb923c">Onboarding</span><span class="arr">→</span><span class="cond">10 reminders sent</span><span class="arr">→</span><span class="node" style="color:#fb923c">HOLD 🔒</span></div>
+      <div class="t-path"><span class="node nd-red">Defect Validation</span><span class="arr">→</span><span class="cond">cycle cap = 5</span><span class="arr">→</span><span class="node nd-red">NEEDS_REVIEW ⚠️</span></div>
+    </div>
+  </div>
+
+  <div class="stops">
+    <div class="stop-card sc-hold"><h3>🔒 HOLD State</h3><p>Triggered after <strong>10 onboarding reminders</strong>. Sweeper skips HOLD projects. Message: <em>"Awaiting client response — attempted 10 times."</em> Resume: client completes onboarding → Admin resumes autopilot.</p></div>
+    <div class="stop-card sc-nr"><h3>⚠️ NEEDS_REVIEW State</h3><p>Triggered when <strong>defect cycle cap (5)</strong> or <strong>build retry cap</strong> reached. Autopilot stops. Admin/Manager reviews, then re-enqueues or resumes autopilot to continue.</p></div>
+    <div class="stop-card sc-hitl"><h3>🧑‍💼 HITL Gate</h3><p><strong>Human-in-the-Loop</strong> gates configurable per stage. When enabled, pipeline pauses for Admin/Manager approval. <em>Approve-build</em> or <em>Send-back</em> endpoints used for manual review.</p></div>
+    <div class="stop-card sc-rec"><h3>♻️ Recovery Actions</h3><p><strong>Enqueue</strong> (HITL projects) · <strong>Resume autopilot</strong> · Resolve confirmation portal · Advance via API. <strong>Sweeper (~90s)</strong> backstop: auto-enqueues ready stages, runs reminders.</p></div>
+  </div>
+
+  <div class="footer-note">⚡ Autonomous (zero-HITL) by default &nbsp;·&nbsp; Sweeper runs every ~90s &nbsp;·&nbsp; Complete stage → sends final email with CloudFront delivery URL + sentiment link &nbsp;·&nbsp; Stage history logged with actor &amp; timestamp</div>
+  <div class="watermark">DAISY MVP · Delivery Automation Intelligence System Yield · Process Flow Diagram</div>
+</div>
+</body>
+</html>

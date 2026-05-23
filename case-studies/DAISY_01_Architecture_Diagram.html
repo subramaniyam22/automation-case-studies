@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAISY MVP — System Architecture Diagram</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f1117; font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; }
+  .canvas { width: 960px; margin: 0 auto; }
+  .title-block { text-align: center; margin-bottom: 28px; }
+  .title-block h1 { font-size: 22px; font-weight: 700; color: #e2e8f0; letter-spacing: 0.5px; }
+  .title-block p { font-size: 12px; color: #64748b; margin-top: 6px; }
+  .badge { display: inline-block; background: #1e40af; color: #93c5fd; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; margin: 0 3px; letter-spacing: 0.5px; }
+  .layer { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; border: 1px solid; }
+  .layer-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .boxes { display: flex; gap: 10px; align-items: stretch; }
+  .box { border-radius: 8px; padding: 10px 12px; flex: 1; border: 1px solid; }
+  .box-title { font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+  .box-sub { font-size: 9.5px; line-height: 1.5; opacity: 0.8; }
+  .box-tag { display: inline-block; font-size: 8.5px; font-weight: 600; padding: 1px 6px; border-radius: 99px; margin-top: 5px; margin-right: 3px; }
+  .l-client { background: #1a1f2e; border-color: #334155; }
+  .l-client .layer-label { color: #64748b; }
+  .l-frontend { background: #0f2542; border-color: #1e40af; }
+  .l-frontend .layer-label { color: #60a5fa; }
+  .l-api { background: #1a1f0e; border-color: #365314; }
+  .l-api .layer-label { color: #86efac; }
+  .l-core { background: #1f1234; border-color: #4c1d95; }
+  .l-core .layer-label { color: #c4b5fd; }
+  .l-data { background: #1a0e0e; border-color: #7f1d1d; }
+  .l-data .layer-label { color: #fca5a5; }
+  .l-ext { background: #0f1f1f; border-color: #134e4a; }
+  .l-ext .layer-label { color: #5eead4; }
+  .b-blue { background: #172554; border-color: #1d4ed8; color: #bfdbfe; }
+  .b-blue .box-title { color: #93c5fd; }
+  .b-green { background: #14532d; border-color: #15803d; color: #bbf7d0; }
+  .b-green .box-title { color: #86efac; }
+  .b-purple { background: #2e1065; border-color: #6d28d9; color: #ddd6fe; }
+  .b-purple .box-title { color: #c4b5fd; }
+  .b-red { background: #450a0a; border-color: #b91c1c; color: #fecaca; }
+  .b-red .box-title { color: #fca5a5; }
+  .b-teal { background: #042f2e; border-color: #0f766e; color: #99f6e4; }
+  .b-teal .box-title { color: #5eead4; }
+  .b-slate { background: #1e293b; border-color: #475569; color: #cbd5e1; }
+  .b-slate .box-title { color: #e2e8f0; }
+  .t-blue { background: #1d4ed8; color: #bfdbfe; }
+  .t-green { background: #15803d; color: #bbf7d0; }
+  .t-purple { background: #6d28d9; color: #ddd6fe; }
+  .t-teal { background: #0f766e; color: #99f6e4; }
+  .t-amber { background: #b45309; color: #fed7aa; }
+  .t-red { background: #b91c1c; color: #fecaca; }
+  .arrow-row { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 2px 0; }
+  .arrow { color: #475569; font-size: 16px; line-height: 1; }
+  .arrow-label { font-size: 9px; color: #64748b; background: #1e293b; padding: 2px 8px; border-radius: 99px; border: 1px solid #334155; }
+  .legend { display: flex; gap: 12px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #94a3b8; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+  .watermark { text-align: center; margin-top: 20px; font-size: 10px; color: #1e293b; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="title-block">
+    <h1>DAISY — Delivery Automation Intelligence System Yield</h1>
+    <p>System Architecture &nbsp;|&nbsp;
+      <span class="badge">FastAPI</span>
+      <span class="badge">LangGraph</span>
+      <span class="badge">Next.js 16</span>
+      <span class="badge">PostgreSQL</span>
+      <span class="badge">S3 + CloudFront</span>
+    </p>
+  </div>
+
+  <div class="layer l-client">
+    <div class="layer-label">▸ Client Layer</div>
+    <div class="three-col">
+      <div class="box b-slate"><div class="box-title">🌐 Browser (User)</div><div class="box-sub">Role-based UI access<br>JWT session (6h expiry)</div></div>
+      <div class="box b-slate"><div class="box-title">📧 Client Portal</div><div class="box-sub">Confirmation approvals<br>No-login client_token auth</div></div>
+      <div class="box b-slate"><div class="box-title">🔗 External Systems</div><div class="box-sub">Webhook receivers<br>Resend email events (Svix)</div></div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><span class="arrow">↕</span><span class="arrow-label">HTTPS / WebSocket (JWT-secured)</span></div>
+
+  <div class="layer l-frontend">
+    <div class="layer-label">▸ Frontend Layer</div>
+    <div class="four-col">
+      <div class="box b-blue"><div class="box-title">⚛️ Next.js 16 App Router</div><div class="box-sub">React 19 · TypeScript 5</div><span class="box-tag t-blue">SSR + CSR</span></div>
+      <div class="box b-blue"><div class="box-title">🎨 Role-Based UI</div><div class="box-sub">7-role nav rendering<br>Conditional components</div><span class="box-tag t-blue">RBAC UI</span></div>
+      <div class="box b-blue"><div class="box-title">📡 Axios + React Query</div><div class="box-sub">API comms · Data caching<br>WS notification polling</div><span class="box-tag t-blue">Real-time</span></div>
+      <div class="box b-blue"><div class="box-title">🖥️ Dashboard Views</div><div class="box-sub">Executive reports · Pipeline<br>Template registry · Client mgmt</div><span class="box-tag t-blue">7 Stages</span></div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><span class="arrow">↕</span><span class="arrow-label">REST API + JWT Bearer Token</span></div>
+
+  <div class="layer l-api">
+    <div class="layer-label">▸ API &amp; Security Layer</div>
+    <div class="four-col">
+      <div class="box b-green"><div class="box-title">⚡ FastAPI 0.120</div><div class="box-sub">Python 3.11 · Async<br>Swagger UI · ReDoc</div><span class="box-tag t-green">REST</span></div>
+      <div class="box b-green"><div class="box-title">🔐 JWT Auth + RBAC</div><div class="box-sub">python-jose · bcrypt<br>7 roles · All endpoints</div><span class="box-tag t-green">Secured</span></div>
+      <div class="box b-green"><div class="box-title">🚦 Rate Limiting</div><div class="box-sub">SlowAPI + Redis<br>Request ID logging</div><span class="box-tag t-green">Redis</span></div>
+      <div class="box b-green"><div class="box-title">🔔 WebSocket + Webhooks</div><div class="box-sub">Notification WS<br>Chat-log + Resend webhooks</div><span class="box-tag t-green">Svix</span></div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><span class="arrow">↕</span><span class="arrow-label">Internal service calls + Redis job queue</span></div>
+
+  <div class="layer l-core">
+    <div class="layer-label">▸ Core Orchestration &amp; Intelligence Layer</div>
+    <div class="boxes">
+      <div class="box b-purple" style="flex:1.3"><div class="box-title">🧠 LangGraph Workflow Engine</div><div class="box-sub">Multi-node DAG · State machine<br>onboarding_node → assignment_node → build_hitl_node → test_node → defect_validation_node → complete_node</div><span class="box-tag t-purple">LangGraph 0.2.34</span><span class="box-tag t-purple">Autopilot / HITL</span></div>
+      <div class="box b-purple" style="flex:1"><div class="box-title">🤖 AI Agents</div><div class="box-sub">Onboarding · Assignment<br>Build · QA · Defect<br>Completion · AI Consultant</div><span class="box-tag t-purple">GPT-4o</span><span class="box-tag t-purple">FakeLLM fallback</span></div>
+      <div class="box b-purple" style="flex:1"><div class="box-title">⚙️ Background Worker</div><div class="box-sub">Job queue consumer<br>Sweeper (every ~90s)<br>Site builder · QA runner</div><span class="box-tag t-purple">Redis Queue</span><span class="box-tag t-purple">Playwright</span></div>
+      <div class="box b-purple" style="flex:1"><div class="box-title">🏗️ Template Engine</div><div class="box-sub">AI + Git templates<br>Lighthouse + Axe validation<br>Multi-page preview · S3 build</div><span class="box-tag t-purple">WCAG 2 AA</span><span class="box-tag t-purple">CloudFront</span></div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><span class="arrow">↕</span><span class="arrow-label">SQLAlchemy 2.0 ORM + S3 SDK + OpenAI API</span></div>
+
+  <div class="layer l-data">
+    <div class="layer-label">▸ Data &amp; Storage Layer</div>
+    <div class="boxes">
+      <div class="box b-red"><div class="box-title">🗄️ PostgreSQL 15</div><div class="box-sub">Projects · Users · Tasks<br>Defects · Confirmations<br>Audit logs · Stage history</div><span class="box-tag t-red">Alembic migrations</span></div>
+      <div class="box b-red"><div class="box-title">⚡ Redis</div><div class="box-sub">Job queue · Rate limit<br>Session cache<br>Worker heartbeat</div><span class="box-tag t-red">SlowAPI</span></div>
+      <div class="box b-red"><div class="box-title">☁️ AWS S3</div><div class="box-sub">Templates (immutable zips)<br>Previews (30d TTL)<br>Deliveries + Proof packs (180d)</div><span class="box-tag t-red">S3 lifecycle tags</span></div>
+      <div class="box b-red"><div class="box-title">🌐 CloudFront CDN</div><div class="box-sub">Preview distribution<br>Delivery distribution<br>OAC + SPA routing</div><span class="box-tag t-red">Edge-cached</span></div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><span class="arrow">↕</span><span class="arrow-label">External API calls (HTTPS)</span></div>
+
+  <div class="layer l-ext">
+    <div class="layer-label">▸ External Services Layer</div>
+    <div class="four-col">
+      <div class="box b-teal"><div class="box-title">🤖 OpenAI</div><div class="box-sub">GPT-4o model<br>Blueprint generation<br>AI consultant chat</div><span class="box-tag t-teal">gpt-4o</span></div>
+      <div class="box b-teal"><div class="box-title">📧 Resend</div><div class="box-sub">Onboarding emails<br>Completion emails<br>Client reminders (max 10)</div><span class="box-tag t-teal">Svix verified</span></div>
+      <div class="box b-teal"><div class="box-title">🔍 Lighthouse + Axe</div><div class="box-sub">Performance · A11y · SEO<br>WCAG 2 AA validation<br>Chromium (Docker)</div><span class="box-tag t-teal">Playwright</span></div>
+      <div class="box b-teal"><div class="box-title">🗺️ OpenStreetMap</div><div class="box-sub">Template preview maps<br>No API key required<br>Geo embed via iframe</div><span class="box-tag t-teal">Free embed</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top: 16px; padding: 10px 14px; background: #0d1526; border: 1px solid #1e3a5f; border-radius: 8px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+    <span style="font-size: 10px; color: #60a5fa; font-weight: 700;">🚀 DEPLOYMENT</span>
+    <span style="font-size: 10px; color: #94a3b8;">Docker Compose (local) &nbsp;|&nbsp; Render Blueprint (production: delivery-backend · delivery-frontend · delivery-worker · delivery-db · delivery-redis) &nbsp;|&nbsp; Worker: Docker required for Playwright + Lighthouse</span>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1d4ed8"></div>Frontend (Next.js)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#15803d"></div>API &amp; Security (FastAPI)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6d28d9"></div>Orchestration (LangGraph)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b91c1c"></div>Data &amp; Storage</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0f766e"></div>External Services</div>
+  </div>
+  <div class="watermark">DAISY MVP · Delivery Automation Intelligence System Yield · Architecture Diagram</div>
+</div>
+</body>
+</html>
